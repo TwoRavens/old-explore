@@ -736,6 +736,9 @@ function crossTabPlots(PlotNameA, PlotNameB) {
    // document.getElementById('plotA').style.display = "block";
     //document.getElementById('plotB').style.display = "block";
 
+    $("#input1").attr("placeholder", PlotNameA).blur();
+    $("#input2").attr("placeholder", PlotNameB).blur();
+
     var plot_nodes = nodes.slice();
 
  /*   for(var i=0;i<plot_nodes.length;i++) {
@@ -805,6 +808,7 @@ function crossTabPlots(PlotNameA, PlotNameB) {
 
 
     }
+  /*
     d3.select(mydiv2).append("g")
         .attr("id", "btnDiv")
         .style('font-size', '75%')
@@ -947,12 +951,47 @@ varn1="equimass";
 
     }
 
-    /*
-    trail
-     */
+    */
+    var varn1,varn2 , varsize1,varsize2;
+    $("#Equidistance1").click(function(){
 
+        console.log("equiD1 clicked")
+        varn1="equidistance";
+        plotA_size= parseInt(d3.select("#input1")[0][0].value);
+        varsize1=plotA_size;
+        equidistance(PlotNameA,plotA_size);
 
+        console.log(" the varn1 : "+ varn1);
+        console.log("plotAsize:"+ plotA_size);
 
+    });
+    $("#Equimass1").click(function(){
+        console.log("equiM1 clicked")
+        plotA_sizem= parseInt(d3.select("#input1")[0][0].value);
+        varsize1=plotA_sizem
+        equimass(PlotNameA,plotA_sizem);
+        varn1="equimass";
+        console.log(" the varn1 : "+ varn1);
+        console.log("plotAsize:"+ plotA_size);
+    });
+    $("#Equidistance2").click(function(){
+        console.log("equiD2 clicked")
+        varn2="equidistance";
+        plotB_size= parseInt(d3.select("#input2")[0][0].value);
+        equidistance(PlotNameB,plotB_size);
+        varsize2=plotB_size;
+        console.log(" the varn2 : "+ varn2);
+        console.log("plotBsize:"+ plotB_size);
+    });
+    $("#Equimass2").click(function(){
+        console.log("equiM2 clicked")
+        varn2="equimass";
+        plotB_sizem= parseInt(d3.select("#input2")[0][0].value);
+        equimass(PlotNameB,plotB_sizem);
+        varsize2=plotB_sizem;
+        console.log(" the varn2 : "+ varn2);
+        console.log("plotBsize:"+ plotB_size);
+    });
 // this is the function to add  the density plot if any
     function density_cross(density_env,a,method_name) {
 
@@ -1072,7 +1111,7 @@ varn1="equimass";
             .style("font-weight","bold");
 
         if (isNaN(a) || a === 0) {
-            console.log("do nothing #bar")
+         //   console.log("do nothing #bar")
             var upper_limit = d3.max(xVals);
             var lower_limit = d3.min(xVals);
 
@@ -1081,8 +1120,8 @@ varn1="equimass";
             var diff = upper_limit - lower_limit;
             var buffer = diff / z;
             var x_cord = [];
-            console.log("diff : " + diff);
-            console.log("buffer : " + buffer);
+            // console.log("diff : " + diff);
+            // console.log("buffer : " + buffer);
             var push_data = lower_limit;
             for (var i = 0; i < z - 1; i++) {
                 push_data = push_data + buffer;
@@ -1111,8 +1150,8 @@ varn1="equimass";
                 var diff = upper_limit - lower_limit;
                 var buffer = diff / a;
                 var x_cord = [];
-                console.log("diff : " + diff);
-                console.log("buffer : " + buffer);
+                // console.log("diff : " + diff);
+                // console.log("buffer : " + buffer);
                 var push_data = lower_limit;
                 for (var i = 0; i < a - 1; i++) {
                     push_data = push_data + buffer;
@@ -1134,11 +1173,11 @@ varn1="equimass";
 
             else if (method_name === "equimass") // here we use the data from equimassCalculation to draw lines
             {
-                console.log(" density equimass called ");
+             //   console.log(" density equimass called ");
                 var temp = [];
 
                 temp = equimassCalculation(density_env, a);
-                console.log("temp for density : " + temp);
+            //    console.log("temp for density : " + temp);
                 for (var i = 1; i < a; i++) {
                     plotsvg.append("line")
                         .attr("id", "line1")
@@ -1309,11 +1348,11 @@ varn1="equimass";
 
 
     if (isNaN(a) || a === 0) {
-        console.log("do nothing #bar");
+       // console.log("do nothing #bar");
         x_cord2 = equimass_bar(bar_env, keys.length);
         //console.log("x_cord2 equidis : " + x_cord2);
 
-        console.log(" bar equimass called ");
+       // console.log(" bar equimass called ");
         for (var i = 0; i < keys.length - 1; i++) {
             // console.log("x_cord1 actual: " + x_1(x_cord2[i]));
             plotsvg1.append("line")
@@ -1336,8 +1375,8 @@ varn1="equimass";
             var diff1 = upper_limit1 - lower_limit1;
             var buffer1 = diff1 / a;
             var x_cord1 = [];
-            console.log("diff1 : " + diff1);
-            console.log("buffer1 : " + buffer1);
+            // console.log("diff1 : " + diff1);
+            // console.log("buffer1 : " + buffer1);
             var push_data1 = lower_limit1;
             for (var i = 0; i < a - 1; i++) {
                 push_data1 = push_data1 + buffer1;
@@ -1396,7 +1435,7 @@ varn1="equimass";
         var string = JSON.stringify(obj);
 
 //convert string to Json Object
-        console.log(JSON.parse(string)); // this is your requirement.
+       // console.log(JSON.parse(string)); // this is your requirement.
 
 
 
@@ -1445,7 +1484,7 @@ function equimass(A,a) //equimass function to call the plot function
     var string = JSON.stringify(obj);
 
 //convert string to Json Object
-    console.log(JSON.parse(string)); // this is your requirement.
+   // console.log(JSON.parse(string)); // this is your requirement.
 
 
 
@@ -1498,9 +1537,9 @@ function equimassCalculation(plot_ev,n) // here we find the coordinates using CD
 var diffy=Upper_limitY-Lower_limitY;
     var e=(diffy)/n; // e is the variable to store the average distance between the points in the cdfy in order to divide the cdfy
 
-    console.log("Upper_limitY ;"+Upper_limitY);
-    console.log("Lower_limitX :"+Lower_limitY);
-    console.log("e "+e );
+    // console.log("Upper_limitY ;"+Upper_limitY);
+    // console.log("Lower_limitX :"+Lower_limitY);
+    // console.log("e "+e );
 
     var arr_c=[]; //array to store the cdfy divided coordinates data
     var push_data=arr_y[0];
@@ -1511,7 +1550,7 @@ var diffy=Upper_limitY-Lower_limitY;
 
     }
 
-    console.log("arr_c : "+ arr_c);
+    //console.log("arr_c : "+ arr_c);
 /*
     var temp=[]; // to store the distance percentage of each division point from the first point in cdfy
     var val_temp=0;
@@ -1550,7 +1589,7 @@ var store=[];
 for (var i=0; i<n; i++)//to get through each arr_c
 {
 
-    console.log("test arcc_c" + arr_c[i]);
+   // console.log("test arcc_c" + arr_c[i]);
     for (var j = 0; j < 50; j++)// to compare with cdfy or arr_y
     {
         if (arr_c[i] === arr_y[j]) {
@@ -1574,14 +1613,14 @@ for (var i=0; i<n; i++)//to get through each arr_c
                 x2 = arr_c[i]-arr_y[j];
                 x3 = arr_y[j+1]-arr_c[i];
                 x4=arr_y[j+1]-arr_y[j];
-                console.log(" val1 : " +x1 + " val2 : " + arr_y[j] + " val3: " + arr_y[j+1]);
-                console.log(" x1-x2 : " +x2 + " x3-x1 : " + x3 + " x3-x2: " + x4);
+                // console.log(" val1 : " +x1 + " val2 : " + arr_y[j] + " val3: " + arr_y[j+1]);
+                // console.log(" x1-x2 : " +x2 + " x3-x1 : " + x3 + " x3-x2: " + x4);
 
             // console.log(" j in"+ j );
 
                 diff_val1 = x2/ x4;
                 diff_val2 = x3 / x4;
-console.log("diff_val1: "+ diff_val1 +  " diff_val2: "+ diff_val2);
+//console.log("diff_val1: "+ diff_val1 +  " diff_val2: "+ diff_val2);
                 store.push({val: i, coor1: j, coor2: j + 1, diff1: diff_val1, diff2: diff_val2});
 
             }
@@ -1591,7 +1630,7 @@ console.log("diff_val1: "+ diff_val1 +  " diff_val2: "+ diff_val2);
 
 
 for(var i=0; i<n; i++) {
-    console.log(" store : " + store[i].val + " " + store[i].coor1 + " "+ store[i].coor2 + " diff1 " + store[i].diff1 + " diff2 "+ store[i].diff2);
+   // console.log(" store : " + store[i].val + " " + store[i].coor1 + " "+ store[i].coor2 + " diff1 " + store[i].diff1 + " diff2 "+ store[i].diff2);
 }
 
 for(var i=0; i<n; i++)
@@ -1613,7 +1652,7 @@ var distance1= x_diff*diffy1;
 var val_x=x_coor1+distance1;
 
 temp.push(val_x);
-console.log(" val_x"+ val_x);
+//console.log(" val_x"+ val_x);
 }
 return temp;
 }
@@ -1629,7 +1668,7 @@ function equimass_bar(plot_ev,n) {
 
     if (k < n) {
         alert("error enter vaild size");
-        console.log("error enter vaild size")
+        // console.log("error enter vaild size")
     }
 
     else {
@@ -1669,12 +1708,12 @@ function equimass_bar(plot_ev,n) {
         }
 
         for (var i = 0; i < temp.length; i++) {
-            // console.log("temp2 : "+temp2[i] );
-            console.log("n : " + temp[i].pos + " and k: " + temp[i].val);
-            //console.log("keys : " + keys[i]);
+            // // console.log("temp2 : "+temp2[i] );
+            // console.log("n : " + temp[i].pos + " and k: " + temp[i].val);
+            // //console.log("keys : " + keys[i]);
 
         }
-        console.log(" the divison of the bar plot : " + temp2);
+       // console.log(" the divison of the bar plot : " + temp2);
 
         var j = 0, k = 0;
         var temp_final = new Array(n);
@@ -1690,16 +1729,16 @@ function equimass_bar(plot_ev,n) {
 
 
         }
-        console.log("temp_final: " + temp_final);
+     //   console.log("temp_final: " + temp_final);
         return temp_final;
     }
 }
     function writeCrossTabsJson()
     {
-
-console.log(" buttontype A : "+ varn1)
-        console.log(" buttontype B : "+ varn2)
-
+//
+// console.log(" buttontype A : "+ varn1)
+//         console.log(" buttontype B : "+ varn2)
+//
 
         var plotAval=varsize1,plotBval=varsize2;
         if(isNaN(plotAval))
@@ -1730,12 +1769,12 @@ console.log(" buttontype A : "+ varn1)
 
             };
 
-console.log("The JsonData to be sent is : ");
+//console.log("The JsonData to be sent is : ");
 var jsonoutput= JSON.stringify(jsondata);
 
 
 
-console.log(jsonoutput);
+//console.log(jsonoutput);
 
 return jsondata;
     }
@@ -1825,10 +1864,10 @@ function bivariatePlot(x_Axis, y_Axis, x_Axis_name, y_Axis_name) {
     d3.select("#scatterplot").html("");
     d3.select("#scatterplot").select("svg").remove();
 
-    document.getElementById('linechart').style.display = "none";
-    d3.select("#heatchart").select("svg").remove();
-    d3.select("#linechart").select("svg").remove();
-    d3.select("#linechart").html("");
+    // document.getElementById('linechart').style.display = "none";
+    // d3.select("#heatchart").select("svg").remove();
+    // d3.select("#linechart").select("svg").remove();
+    // d3.select("#linechart").html("");
     d3.select("#heatchart").html("");
     // $("#NAcount").html("");
 
@@ -2330,7 +2369,7 @@ function heatmap(x_Axis_name, y_Axis_name) {
 
 }
 
-
+/*
 //Kripanshu Bhargava bivariatePlot(linechart)
 function linechart() {
     document.getElementById('linechart').style.display = "block";
@@ -2437,7 +2476,7 @@ function linechart() {
     });
 }
 
-
+*/
 ////////////////////////////////////////////
 // everything below this point is a function
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -4356,7 +4395,8 @@ function estimate(btn) {
         // .style("display", "block");
         d3.select("#result_left")
             .style("display", "block");
-
+        d3.select("#result_left1")
+            .style("display", "block");
         d3.select("#result_right")
             .style("display", "block");
 
@@ -4496,7 +4536,8 @@ function explore(btn) {
 
         d3.select("#result_left")
             .style("display", "block");
-
+        d3.select("#result_left1")
+            .style("display", "block");
         d3.select("#result_right")
             .style("display", "block");
         /*
@@ -4829,12 +4870,12 @@ function viz(m) {
 
 //KRIPANSHU BHARGAVA, this is viz for explore
 function viz_explore(m, json_vizexplore, model_name_set) {
-    d3.select("#tabular_1")
-        .style("display", "block");
+
    // d3.select("#resultsView_tabular").html("");
     d3.select("#plotA").html("");
     d3.select("#plotB").html("");
-    d3.select("#SelectionData").html("");
+    d3.select("#tabular_2").style("display", "block");
+    d3.select("#tabular_1").style("display", "block");
     console.log("Viz explore method called: " + model_name_set);
 
     var get_data = [];
@@ -4951,94 +4992,98 @@ function viz_explore(m, json_vizexplore, model_name_set) {
     var table_data = [];
     var rowvar = [];
     var rownames = [];
-function crossTab_Table(json_my) {
-
-    var json1 = json_my;
-
-
-
-
-    // data for statistics
-
-
-    for (var i in json1.tabular) {
-        //console.log("this is data : " + i)
-        if (i == model_name1 || i == model_name2) {
-            for (var j in json1.tabular[i].colnames) {
+    function crossTab_Table(json_my) {
+        colnames=[];
+        rownames=[];
+        table_data=[];
+        table_obj=[];
+        console.log("test json:",json_my)
+        var json1 = json_my;
 
 
-                //   console.log("colnames: ");
-               //  console.log(json.tabular[i].colnames[j]);
-                colnames.push(json1.tabular[i].colnames[j]);
 
+
+        // data for statistics
+
+
+        for (var i in json1.tabular) {
+            //console.log("this is data : " + i)
+            if (i == model_name1 || i == model_name2) {
+                for (var j in json1.tabular[i].colnames) {
+
+
+                    //   console.log("colnames: ");
+                    //  console.log(json.tabular[i].colnames[j]);
+                    colnames.push(json1.tabular[i].colnames[j]);
+
+                }
             }
         }
-    }
 
 
-    for (var i in json1.tabular) {
-        //   console.log("rownames: ");
-        if (i == model_name1 || i == model_name2) {
-            for (var k in json1.tabular[i].rownames) {
+        for (var i in json1.tabular) {
+            //   console.log("rownames: ");
+            if (i == model_name1 || i == model_name2) {
+                for (var k in json1.tabular[i].rownames) {
 
-                //   console.log(json.tabular[i].rownames[k]);
-                rownames.push(json1.tabular[i].rownames[k]);
+                    //   console.log(json.tabular[i].rownames[k]);
+                    rownames.push(json1.tabular[i].rownames[k]);
+                }
             }
         }
-    }
-    for (var i in json1.tabular) {
-        if (i == model_name1 || i == model_name2) {
-            for (var l in json1.tabular[i].rowvar) {
-                //  console.log("rowvar: ");
-                // console.log(json.tabular[i].rowvar[l]);
-                rowvar.push(json1.tabular[i].rowvar[l]);
+        for (var i in json1.tabular) {
+            if (i == model_name1 || i == model_name2) {
+                for (var l in json1.tabular[i].rowvar) {
+                    //  console.log("rowvar: ");
+                    // console.log(json.tabular[i].rowvar[l]);
+                    rowvar.push(json1.tabular[i].rowvar[l]);
+                }
             }
         }
-    }
-    for (var i in json1.tabular) {
-        if (i == model_name1 || i == model_name2) {
-            for (var m in json1.tabular[i].colvar) {
-                // console.log("colavar: ");
-                //  console.log(json.tabular[i].colvar[m]);
-                colvar.push(json1.tabular[i].colvar[m]);
+        for (var i in json1.tabular) {
+            if (i == model_name1 || i == model_name2) {
+                for (var m in json1.tabular[i].colvar) {
+                    // console.log("colavar: ");
+                    //  console.log(json.tabular[i].colvar[m]);
+                    colvar.push(json1.tabular[i].colvar[m]);
+                }
             }
         }
-    }
-    for (var i in json1.tabular) {
-        if (i == model_name1 || i == model_name2) {
-            // console.log("This is data : ");
-            for (var n in json1.tabular[i].data) {
-                table_data[n] = [];
-                //  console.log(json.tabular[i].data[n]);
-                //  console.log("this is data for : " + json.tabular[i].data[n]);
-                for (var a = 0; a < colnames.length; a++) {
-                    // console.log("data : ");
-                    // console.log(json.tabular[i].data[n][a]);
-                    table_data[n].push(json1.tabular[i].data[n][a]);
+        for (var i in json1.tabular) {
+            if (i == model_name1 || i == model_name2) {
+                // console.log("This is data : ");
+                for (var n in json1.tabular[i].data) {
+                    table_data[n] = [];
+                    //  console.log(json.tabular[i].data[n]);
+                    //  console.log("this is data for : " + json.tabular[i].data[n]);
+                    for (var a = 0; a < colnames.length; a++) {
+                        // console.log("data : ");
+                        // console.log(json.tabular[i].data[n][a]);
+                        table_data[n].push(json1.tabular[i].data[n][a]);
+                    }
+
                 }
 
             }
-
         }
-    }
 
-    for (var p = 0; p < rownames.length; p++) {// console.log(" row data : "+ p);
-        for (var l = 0; l < colnames.length; l++) {
-            // console.log("col data : ");
-            //  console.log(table_data[p][l]);
-            table_obj.push({rowname: rownames[p], colname: colnames[l], value: table_data[p][l]});
-           // console.log(" the dynamic object data : rowname = "+ table_obj[i].rowname + " colname :  "+ table_obj[i].colname + " value : "+ table_obj[i].value );
+        for (var p = 0; p < rownames.length; p++) {// console.log(" row data : "+ p);
+            for (var l = 0; l < colnames.length; l++) {
+                // console.log("col data : ");
+                //  console.log(table_data[p][l]);
+                table_obj.push({rowname: rownames[p], colname: colnames[l], value: table_data[p][l]});
+                // console.log(" the dynamic object data : rowname = "+ table_obj[i].rowname + " colname :  "+ table_obj[i].colname + " value : "+ table_obj[i].value );
+            }
         }
-    }
 // crosstab_table ends
-/*for(var i=0; i<table_obj.length; i++)
-{
-    console.log(" the dynamic object data : rowname = "+ table_obj[i].rowname + " colname :  "+ table_obj[i].colname + " value : "+ table_obj[i].value );
-    // console.log(" the dynamic object data : rowname = "+ table_obj.rowname + " colname :  "+ table_obj.colname + " value : "+ table_obj.value );
-}
-*/
-d3table1(table_obj);
-}
+        /*for(var i=0; i<table_obj.length; i++)
+        {
+            console.log(" the dynamic object data : rowname = "+ table_obj[i].rowname + " colname :  "+ table_obj[i].colname + " value : "+ table_obj[i].value );
+            // console.log(" the dynamic object data : rowname = "+ table_obj.rowname + " colname :  "+ table_obj.colname + " value : "+ table_obj.value );
+        }
+        */
+        d3table1(table_obj);
+    }
 
     // for the statistics]
     // console.log("The data for the statistical"+ json.statistical)
@@ -5123,8 +5168,7 @@ d3table1(table_obj);
     // d3.select("#resultsView_tabular").html("");
 
      function d3table1(data) {
-         d3.select("#tabular_2").style("display","block");
-         d3.select("#tabular_1").style("display","none");
+
          var width = 120,   // width of svg
              height = 160,  // height of svg
              padding = 22; // space around the chart, not including labels
@@ -5219,51 +5263,38 @@ d3table1(table_obj);
     });
 
 */
-    $('#selection').click(function()
-    {
-        console.log("this is selection");
+//console.log(" The table data check: ", json);
+    crossTab_Table(json);
 
+   // crossTabPlots(get_data[0], get_data[1]);
+    $('#SelectionData1').click(function(){
+       // alert("The paragraph was clicked.");
         d3.select("#tabular_2").html("");
-        d3.select("#tabular_2").style("display","none");
-        d3.select("#tabular_1").style("display","block");
-        d3.select("#plotA").html("");
-        d3.select("#plotB").html("");
-        d3.select("#SelectionData").html("");
-
-
-        crossTabPlots(get_data[0], get_data[1]);
-    });
-    $('#crossTabs').click(function()
-    {
-
-        console.log("this is crossTabs");
-
-        d3.select("#plotA").html("");
-        d3.select("#plotB").html("");
-        d3.select("#SelectionData").html("");
-        //d3.select("#tabular_2").html("");
-        d3.select("#tabular_2").html("");
-
-
 
         explore_crosstab(json);
+
         estimateLadda.stop();  // stop spinner
         estimated = true;
+
+
     });
+
+
+
     function explore_crosstab(btn) {
 
         for (var key in zparams) {
             if (zparams.hasOwnProperty(key)) {
                 // do something with `key'
-                if(key==="zcrosstabs")
+                if(key==="zcrosstab" && key.length>0)
                 {
-                    delete zparams[key];
+                     zparams[key]=[];
                 }
 
             }
         }
 
-       // console.log("new JSONOUT : ", zparams)
+        console.log("new JSONOUT : ", zparams)
 
        zparams.zcrosstab.push(crossTabPlots.writeCrossTabsJson());
 
@@ -5293,14 +5324,15 @@ d3table1(table_obj);
              if (error) return console.warn(error);
              var jsondata = json;
 
-             console.log("explore DATA json: ", jsondata);
+             //console.log("explore DATA json test: ", jsondata);
 
 
-crossTab_Table(jsondata);
+        crossTab_Table(jsondata);
    // var jsonget=json.tabular;
     //console.log("json :"+ jsonget);
         // d3table1(d);
-
+             estimateLadda.stop();  // stop spinner
+             estimated = true;
      });
      }
         function explore_crosstabFail() {
@@ -5969,6 +6001,7 @@ function tabRight(tabid) {
     document.getElementById('setx').style.display = 'none';
     // document.getElementById('results').style.display = 'none';
     document.getElementById('result_left').style.display = 'none';
+    document.getElementById('result_left1').style.display = 'none';
     document.getElementById('result_right').style.display = 'none';
     document.getElementById('modelView_Container').style.display = 'none';
 
@@ -5989,6 +6022,7 @@ function tabRight(tabid) {
         //  document.getElementById('results').style.display = 'block';
         document.getElementById('modelView_Container').style.display = 'block';
         document.getElementById('result_left').style.display = 'block';
+        document.getElementById('result_left1').style.display = 'block';
         document.getElementById('result_right').style.display = 'block';
 
         if (estimated === false) {

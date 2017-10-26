@@ -255,50 +255,71 @@
 
 
                     <div id="result_left"
-                         style="width: 50%; height: 90%; float:left;background-color: white; display:none; border-right:groove; border-bottom: groove ;overflow:auto; white-space:nowrap; ">
+                         style="width: 50%; height: 90%; float:left;background-color: white; display:none; border-right:groove;  overflow:auto; white-space:nowrap; ">
                         <!--div id="resultsView" class="container" style="width:100%; height: 100%; background-color:white; display:none; float:left; overflow:auto; white-space:nowrap; border-right: groove" -->
-
+<div id="result_left1"
+     style="width: 100%; height: 80%; float:left;background-color: white; display:none; border-right:groove; border-bottom: groove ;overflow:auto; white-space:nowrap;  ">
 
                         <div id="scatterplot" class="container3"
-                             style="width: 500px; height: 50%; background-color: white;display: none; overflow:auto;">
+                             style="width: 500px; height: 60%; background-color: white;display: none; overflow:auto;margin-bottom:10px ">
                         </div>
                             <div id="heatchart" class="container4"
-                                 style="width: 500px; height:60%;  display: none; overflow:auto; background-color: #FFEBEE;"></div>
+                                 style="width: 500px; height:60%;  display: none; overflow:auto; background-color: #FFEBEE; margin-bottom:20px "></div>
 
-                        <h5 id="NAcount"style=" margin-left: 20px; display: none;"></h5>
-
-
-
-                            <button id="linechart_welcome"  type="button" class="btn btn-danger" onclick="linechart()"
-                                    style=" display: block; margin:0 auto; position: relative; "> Linechart
-                            </button>
+                        <h5 id="NAcount"style=" margin-left: 20px; display: none; "></h5>
 
 
-                        <div id="linechart" class="container4"
-                             style="width: 500px; height:320px; background-color:white ;display: none; overflow:auto;"></div>
+</div>
+                            <!--<button id="linechart_welcome"  type="button" class="btn btn-danger" onclick="linechart()"-->
+                                    <!--style=" display: block; margin:0 auto; position: relative; "> Linechart-->
+                            <!--</button>-->
 
 
-                    </div>
-                    <div id="result_right" style="width: 50%;height: 90%; float:right;background-color: white; display:none; border-right:groove; border-bottom: groove ;overflow:auto; white-space:nowrap;">
-                        <div class="btn-group btn-group-sm" style=" width: auto;height: 10%;   display:block; white-space:nowrap; margin-left:170px; position: relative;">
-                            <button class=" btn btn-primary" id="selection">Selection</button>
-                            <button class="btn btn-primary" id="crossTabs">Cross-Tabs</button>
-                        </div>
+                        <!--<div id="linechart" class="container4"-->
+                             <!--style="width: 500px; height:320px; background-color:white ;display: none; overflow:auto;"></div>-->
 
-                        <div id="resultsView_tabular" class="container1" ;
-                             style="width:100%; height: 60%; background-color:white; display:block; float:left; overflow:auto; white-space:nowrap;border-right:groove; border-bottom: groove">
-                            <!--div id="toggle_tab" style=" width: auto;height: 10%;  display:block; white-space:nowrap; margin:0 auto; position: relative; "> <button type="button" id="TabToggle" class="btn btn-outline-warning" onclick="toggleChange(); " >Selection</button><button type="button" id="TabToggle1" class="btn btn-outline-warning" onclick="toggleChange();  ">Cross-Tabs</button></--div-->
-                           <div id="tabular_1" style="width: 100%; height: 100%; display: none;" >
-                            <div id="plotA" style="width: 50% ; height: 60%; float: left;   display: none ; overflow: auto; ">plotA</div>
-                            <div id="plotB" style="width: 50% ; height: 60%; float: right;  ; display: none; overflow: auto ; ">plotB</div>
-                            <div id="SelectionData"style="width: 100% ; height: 40%;   display: none; overflow: auto; "></div>
-                           </div>
-                            <div id="tabular_2"  style="width: 100%;height: 100%; display: none; background:#ac2925"></div>
-                        </div>
                         <div id="resultsView_statistics" class="container2" ;
-                             style="width:100%; height: 40%; background-color:white; display:none; clear:left;  float:right;overflow:auto; white-space:nowrap;border-right: groove; border-bottom: groove;"></div>
-                    </div>
+                        style="width:100%; height:20%; background-color:white; display:none; float:left;overflow:auto; white-space:nowrap;border-right: groove; border-bottom: groove;"></div>
+                        </div>
 
+                    <div id="result_right" style="width: 50%;height: 90%; float:right;background-color: white; display:none; border-right:groove; overflow:auto; white-space:nowrap;">
+                        <div id="resultsView_tabular" class="container1" ;
+                             style="width:100%; height: 100%; background-color:white; display:block; float:left; overflow:auto; white-space:nowrap;border-right:groove; border-bottom: groove">
+                            <!--div id="toggle_tab" style=" width: auto;height: 10%;  display:block; white-space:nowrap; margin:0 auto; position: relative; "> <button type="button" id="TabToggle" class="btn btn-outline-warning" onclick="toggleChange(); " >Selection</button><button type="button" id="TabToggle1" class="btn btn-outline-warning" onclick="toggleChange();  ">Cross-Tabs</button></--div-->
+                            <div id="SelectionData"style="width: 100% ; height: 50%;   display: none; overflow: auto; margin-top: 10px; border-bottom-style: inset;">
+
+                                <fieldset style="margin: 5%">
+                                   <h4 style="text-align: center">Data Distribution Selection</h4>
+                                    <p style="font-family: Arial, Helvetica, sans-serif; font-size: 12px" >Enter the numbers for both plots respectively to specify the distribution of the cross-tabs</p>
+                                    <p id="boldstuff" style="color: #2a6496; font-family: Arial, Helvetica, sans-serif; font-size: 12px ">Select between Equidistant and Equimass</p>
+
+                                </fieldset>
+                                <div id="forPlotA" style="display: block; margin: 2%">
+                                    <input id="input1" type="text"  name="fname" style="margin-left: 2%">
+                                    <button id="Equidistance1" class="btn btn-default btn-xs" type="button" style="float: left; margin-left: 2%" >EQUIDISTANCE</button>
+                                    <button id="Equimass1"  class="btn btn-default btn-xs" type="button" style="float: left ; margin-left: 2%">EQUIMASS</button>
+                                </div>
+                                <div id="forPlotB"  style="display: block; margin: 2%;" >
+                                    <input id="input2" type="text" name="fname1" style="margin-left: 2%" >
+                                    <button id="Equidistance2" class="btn btn-default btn-xs" type="button" style="float: left; margin-left: 2%">EQUIDISTANCE</button>
+                                    <button id="Equimass2" class="btn btn-default btn-xs" type="button" style="float: left ;margin-left: 2%">EQUIMASS</button>
+                                </div>
+
+                                <button id="SelectionData1"  type="button" class="btn btn-default btn-sm" style=" display: block; margin:0 auto; position: relative; "> Create </button>
+                                <!--<span id="breakspace" style="margin-bottom:0px; background-color: #fa8072; overflow: auto "> <p id="breakSelect" style="background-color: #c0c0c0; margin-left: 2px; width:50px;" >break1</p></span>-->
+                            </div>
+
+                           <div id="tabular_1" style="width: 100%; height: 30%; display: none; border-bottom-style: inset; margin-top: 3%; overflow: auto" >
+                            <div id="plotA" style="width: 50% ; height: 100%; float: left;   display: none ; overflow: auto;  ">plotA</div>
+                            <div id="plotB" style="width: 50% ; height: 100%; float: right;  ; display: none; overflow: auto ; ">plotB</div>
+
+                           </div>
+                            <div id="tabular_2"  style="width: 100%;height: 50%; display: none;  border-bottom-style: inset; overflow:auto;"></div>
+                        </div>
+                        <!--<div id="resultsView_statistics" class="container2" ;-->
+                             <!--style="width:100%; height: 40%; background-color:white; display:none; clear:left;  float:right;overflow:auto; white-space:nowrap;border-right: groove; border-bottom: groove;"></div>-->
+                    <!--</div>-->
+                    </div>
                     <p id="resultsHolder" style="padding:.5em 1em;"></p>
                     <!--No results available until a model is estimated.-->
 
