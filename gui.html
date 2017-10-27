@@ -286,7 +286,7 @@
                         <div id="resultsView_tabular" class="container1" ;
                              style="width:100%; height: 100%; background-color:white; display:block; float:left; overflow:auto; white-space:nowrap;border-right:groove; border-bottom: groove">
                             <!--div id="toggle_tab" style=" width: auto;height: 10%;  display:block; white-space:nowrap; margin:0 auto; position: relative; "> <button type="button" id="TabToggle" class="btn btn-outline-warning" onclick="toggleChange(); " >Selection</button><button type="button" id="TabToggle1" class="btn btn-outline-warning" onclick="toggleChange();  ">Cross-Tabs</button></--div-->
-                            <div id="SelectionData"style="width: 100% ; height: 50%;   display: none; overflow: auto; margin-top: 10px; border-bottom-style: inset;">
+                            <div id="SelectionData"style="width: 100% ; height: 55%;   display: none; overflow: auto; margin-top: 10px; border-bottom-style: inset;">
 
                                 <fieldset style="margin: 5%">
                                    <h4 style="text-align: center">Data Distribution Selection</h4>
@@ -295,18 +295,20 @@
 
                                 </fieldset>
                                 <div id="forPlotA" style="display: block; margin: 2%">
-                                    <input id="input1" type="text"  name="fname" style="margin-left: 2%">
+                                    <input id="input1" type="text"  name="fname" style="margin-left: 2%"> <span id="tooltipPlotA" class="tooltiptext" style="visibility: hidden;"></span>
                                     <button id="Equidistance1" class="btn btn-default btn-xs" type="button" style="float: left; margin-left: 2%" >EQUIDISTANCE</button>
                                     <button id="Equimass1"  class="btn btn-default btn-xs" type="button" style="float: left ; margin-left: 2%">EQUIMASS</button>
                                 </div>
                                 <div id="forPlotB"  style="display: block; margin: 2%;" >
-                                    <input id="input2" type="text" name="fname1" style="margin-left: 2%" >
+                                    <input id="input2" type="text" name="fname1" style="margin-left: 2%" ><span id="tooltipPlotB" class="tooltiptext1" style="visibility: hidden;">yo</span>
                                     <button id="Equidistance2" class="btn btn-default btn-xs" type="button" style="float: left; margin-left: 2%">EQUIDISTANCE</button>
                                     <button id="Equimass2" class="btn btn-default btn-xs" type="button" style="float: left ;margin-left: 2%">EQUIMASS</button>
                                 </div>
 
                                 <button id="SelectionData1"  type="button" class="btn btn-default btn-sm" style=" display: block; margin:0 auto; position: relative; "> Create </button>
-                                <span id="breakspace" style="margin-bottom:0px; width: 100%; height: 50px; background-color: #fa8072; overflow: auto "></span>
+                                <h5 style="color: #ac2925; margin: 5%"> Selection History </h5>
+                                <p style="color:#269abc; margin: 5%; font-family: Helvetica Neue, Helvetica, Arial, sans-serif;">Previous selection data is stored in the breaks. Select any break to view data.</p>
+                                <span id="breakspace" style=" display: block; overflow: auto; " onclick=""></span>
                             </div>
 
                            <div id="tabular_1" style="width: 100%; height: 30%; display: none; border-bottom-style: inset; margin-top: 3%; overflow: auto" >
@@ -314,7 +316,7 @@
                             <div id="plotB" style="width: 50% ; height: 100%; float: right;  ; display: none; overflow: auto ; ">plotB</div>
 
                            </div>
-                            <div id="tabular_2"  style="width: 100%;height: 50%; display: none;  border-bottom-style: inset; overflow:auto;"></div>
+                            <div id="tabular_2"  style="width: 100%;height: 40%; display: none;  border-bottom-style: inset; overflow:auto;"></div>
                         </div>
                         <!--<div id="resultsView_statistics" class="container2" ;-->
                              <!--style="width:100%; height: 40%; background-color:white; display:none; clear:left;  float:right;overflow:auto; white-space:nowrap;border-right: groove; border-bottom: groove;"></div>-->

@@ -769,6 +769,40 @@ function crossTabPlots(PlotNameA, PlotNameB) {
 
 
     }
+
+    d3.select("#input1").on("mouseover", function() {
+        //console.log("mouseover function called");
+        d3.select("#tooltipPlotA")
+            .style("visibility", "visible")
+            .style("opacity","1")
+            .text(PlotNameA);
+    })
+        .on("mouseout",function(){
+            d3.select("#tooltipPlotA")
+                .style("visibility", "hidden")
+                .style("opacity","0")
+
+
+
+        })
+    ;
+    d3.select("#input2").on("mouseover", function() {
+       // console.log("mouseover function called B");
+        d3.select("#tooltipPlotB")
+            .style("visibility", "visible")
+            .style("opacity","1")
+            .text(PlotNameB);
+    })
+        .on("mouseout",function(){
+            d3.select("#tooltipPlotB")
+                .style("visibility", "hidden")
+                .style("opacity","0")
+
+
+
+        })
+    ;
+
     if(count_c===2)
     {
         document.getElementById("plotA").style.width = "100%";
@@ -5266,12 +5300,27 @@ function viz_explore(m, json_vizexplore, model_name_set) {
 */
 //console.log(" The table data check: ", json);
     crossTab_Table(json);
+
+    function removeData()
+    {
+        for (var key in zparams) {
+            if (zparams.hasOwnProperty(key)) {
+                // do something with `key'
+                if(key==="zcrosstab" && key.length>0)
+                {
+                    zparams[key]=[];
+                }
+
+            }
+        }
+    }
 var breakcount=1;
    // crossTabPlots(get_data[0], get_data[1]);
     $('#SelectionData1').click(function(){
        // alert("The paragraph was clicked.");
         d3.select("#tabular_2").html("");
-
+        removeData();
+        zparams.zcrosstab.push(crossTabPlots.writeCrossTabsJson());
         explore_crosstab(json);
 
         estimateLadda.stop();  // stop spinner
@@ -5279,14 +5328,42 @@ var breakcount=1;
         zbreaks.push(crossTabPlots.writeCrossTabsJson());
 
         d3.select("#breakspace")
-
+            .append("span")
+            .text("\u00A0 \u00A0 \u00A0 \u00A0   ")
+            .style("margin-top", 0)
+            .style("white-space", "pre")
+            .style("display", "inline-block")
+            .style("float", "left")
+            .append("span")
             .append("button")// top stack for results
             .attr("class","btn btn-default btn-xs")
-            .attr("id", "break")
-            .text("break "+breakcount);
+            .attr("id", breakcount-1)
+            .text("break "+breakcount) .on("click", function () {
+            d3.select("#tabular_2").html("");
+            removeData();
+            zparams.zcrosstab.push(zbreaks[this.id]);
+            explore_crosstab(json);
+
+            var inputvalue1,inputvalue2;
+            inputvalue1=zbreaks[this.id].var1.value;
+            inputvalue2=zbreaks[this.id].var2.value;
+
+            console.log("val1:",inputvalue1);
+            console.log("val2:",inputvalue2);
+
+            document.getElementById("input1").value = inputvalue1;
+            document.getElementById("input2").value = inputvalue2;
+           // console.log("break called :" + this.id);
+
+            //console.log("zparams for breaks now: "+zbreaks[this.id]);
+        });
+
+
 breakcount++;
 
     });
+
+
 
 for(var i=0; i<zbreaks.length; i++)
 {
@@ -5295,20 +5372,11 @@ for(var i=0; i<zbreaks.length; i++)
 
     function explore_crosstab(btn) {
 
-        for (var key in zparams) {
-            if (zparams.hasOwnProperty(key)) {
-                // do something with `key'
-                if(key==="zcrosstab" && key.length>0)
-                {
-                     zparams[key]=[];
-                }
 
-            }
-        }
 
         //console.log("new JSONOUT : ", zparams)
 
-       zparams.zcrosstab.push(crossTabPlots.writeCrossTabsJson());
+
 
         if (production && zparams.zsessionid == "") {
             alert("Warning: Data download is not complete. Try again soon.");
