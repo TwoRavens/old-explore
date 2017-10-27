@@ -972,7 +972,7 @@ varn1="equimass";
         equimass(PlotNameA,plotA_sizem);
         varn1="equimass";
         console.log(" the varn1 : "+ varn1);
-        console.log("plotAsize:"+ plotA_size);
+        console.log("plotAsize:"+ plotA_sizem);
     });
     $("#Equidistance2").click(function(){
         console.log("equiD2 clicked")
@@ -990,7 +990,7 @@ varn1="equimass";
         equimass(PlotNameB,plotB_sizem);
         varsize2=plotB_sizem;
         console.log(" the varn2 : "+ varn2);
-        console.log("plotBsize:"+ plotB_size);
+        console.log("plotBsize:"+ plotB_sizem);
     });
 // this is the function to add  the density plot if any
     function density_cross(density_env,a,method_name) {
@@ -4866,11 +4866,12 @@ function viz(m) {
 
 
 
-
+var zbreaks=[];
 
 //KRIPANSHU BHARGAVA, this is viz for explore
 function viz_explore(m, json_vizexplore, model_name_set) {
 
+    zbreaks=[];
    // d3.select("#resultsView_tabular").html("");
     d3.select("#plotA").html("");
     d3.select("#plotB").html("");
@@ -5265,7 +5266,7 @@ function viz_explore(m, json_vizexplore, model_name_set) {
 */
 //console.log(" The table data check: ", json);
     crossTab_Table(json);
-
+var breakcount=1;
    // crossTabPlots(get_data[0], get_data[1]);
     $('#SelectionData1').click(function(){
        // alert("The paragraph was clicked.");
@@ -5275,11 +5276,22 @@ function viz_explore(m, json_vizexplore, model_name_set) {
 
         estimateLadda.stop();  // stop spinner
         estimated = true;
+        zbreaks.push(crossTabPlots.writeCrossTabsJson());
 
+        d3.select("#breakspace")
+
+            .append("button")// top stack for results
+            .attr("class","btn btn-default btn-xs")
+            .attr("id", "break")
+            .text("break "+breakcount);
+breakcount++;
 
     });
 
-
+for(var i=0; i<zbreaks.length; i++)
+{
+    console.log("zbreaks are : "+ zbreaks[i]);
+}
 
     function explore_crosstab(btn) {
 
@@ -5294,7 +5306,7 @@ function viz_explore(m, json_vizexplore, model_name_set) {
             }
         }
 
-        console.log("new JSONOUT : ", zparams)
+        //console.log("new JSONOUT : ", zparams)
 
        zparams.zcrosstab.push(crossTabPlots.writeCrossTabsJson());
 
@@ -5303,7 +5315,7 @@ function viz_explore(m, json_vizexplore, model_name_set) {
             return;
         }
         zPop();
-        console.log("zpop: ", zparams);
+      //  console.log("zpop: ", zparams);
         // write links to file & run R CMD
 
         //package the output as JSON
@@ -5315,7 +5327,7 @@ function viz_explore(m, json_vizexplore, model_name_set) {
         urlcall = rappURL + "exploreapp"; //base.concat(jsonout);
         var solajsonout = "solaJSON=" + jsonout;
         //console.log("urlcall out: ", urlcall);
-        console.log("POST out this: ", solajsonout);
+       // console.log("POST out this: ", solajsonout);
 
      function explore_crosstabSuccess(json) {
     console.log("crossTabSuccess");
