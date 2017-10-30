@@ -724,7 +724,7 @@ readPreprocess(url = pURL, p = preprocess, v = null, callback = function () {
 
 //Kripanshu Bhargava  plot for cross tab
 
-function crossTabPlots(PlotNameA, PlotNameB) {
+function crossTabPlots(PlotNameA, PlotNameB,json_obj) {
     var mydiv = "#plotA";
     var mydiv1 = "#plotB";
     var mydiv2 = "#SelectionData";
@@ -732,7 +732,7 @@ function crossTabPlots(PlotNameA, PlotNameB) {
     var count_b=0;
     var plotA_size,plotB_size,plotA_sizem,plotB_sizem;
     //d3.select("#resultsView_tabular").html("");
-
+console.log("break json object:",json_obj);
    // document.getElementById('plotA').style.display = "block";
     //document.getElementById('plotB').style.display = "block";
 
@@ -750,6 +750,8 @@ function crossTabPlots(PlotNameA, PlotNameB) {
         }
     }
     */
+
+
     for (var i = 0; i < plot_nodes.length; i++) {
         if (plot_nodes[i].name === PlotNameA) {
             if (plot_nodes[i].plottype === "continuous") {
@@ -987,45 +989,52 @@ varn1="equimass";
 
     */
     var varn1,varn2 , varsize1,varsize2;
-    $("#Equidistance1").click(function(){
 
-        console.log("equiD1 clicked")
-        varn1="equidistance";
-        plotA_size= parseInt(d3.select("#input1")[0][0].value);
-        varsize1=plotA_size;
-        equidistance(PlotNameA,plotA_size);
 
-        console.log(" the varn1 : "+ varn1);
-        console.log("plotAsize:"+ plotA_size);
+    //console.log("json_obj undefined");
+
+    $("#Equidistance1").click(function () {
+
+       // console.log("equiD1 clicked")
+        varn1 = "equidistance";
+        plotA_size = parseInt(d3.select("#input1")[0][0].value);
+        varsize1 = plotA_size;
+        equidistance(PlotNameA, plotA_size);
+
+        // console.log(" the varn1 : " + varn1);
+        // console.log("plotAsize:" + plotA_size);
 
     });
-    $("#Equimass1").click(function(){
-        console.log("equiM1 clicked")
-        plotA_sizem= parseInt(d3.select("#input1")[0][0].value);
-        varsize1=plotA_sizem
-        equimass(PlotNameA,plotA_sizem);
-        varn1="equimass";
-        console.log(" the varn1 : "+ varn1);
-        console.log("plotAsize:"+ plotA_sizem);
+    $("#Equimass1").click(function () {
+       // console.log("equiM1 clicked")
+        plotA_sizem = parseInt(d3.select("#input1")[0][0].value);
+        varsize1 = plotA_sizem
+        equimass(PlotNameA, plotA_sizem);
+        varn1 = "equimass";
+        // console.log(" the varn1 : " + varn1);
+        // console.log("plotAsize:" + plotA_sizem);
     });
-    $("#Equidistance2").click(function(){
-        console.log("equiD2 clicked")
-        varn2="equidistance";
-        plotB_size= parseInt(d3.select("#input2")[0][0].value);
-        equidistance(PlotNameB,plotB_size);
-        varsize2=plotB_size;
-        console.log(" the varn2 : "+ varn2);
-        console.log("plotBsize:"+ plotB_size);
+    $("#Equidistance2").click(function () {
+        //console.log("equiD2 clicked")
+        varn2 = "equidistance";
+        plotB_size = parseInt(d3.select("#input2")[0][0].value);
+        equidistance(PlotNameB, plotB_size);
+        varsize2 = plotB_size;
+        // console.log(" the varn2 : " + varn2);
+        // console.log("plotBsize:" + plotB_size);
     });
-    $("#Equimass2").click(function(){
-        console.log("equiM2 clicked")
-        varn2="equimass";
-        plotB_sizem= parseInt(d3.select("#input2")[0][0].value);
-        equimass(PlotNameB,plotB_sizem);
-        varsize2=plotB_sizem;
-        console.log(" the varn2 : "+ varn2);
-        console.log("plotBsize:"+ plotB_sizem);
+    $("#Equimass2").click(function () {
+       // console.log("equiM2 clicked")
+        varn2 = "equimass";
+        plotB_sizem = parseInt(d3.select("#input2")[0][0].value);
+        equimass(PlotNameB, plotB_sizem);
+        varsize2 = plotB_sizem;
+        // console.log(" the varn2 : " + varn2);
+        // console.log("plotBsize:" + plotB_sizem);
     });
+
+
+
 // this is the function to add  the density plot if any
     function density_cross(density_env,a,method_name) {
 
@@ -1883,18 +1892,22 @@ return jsondata;
     }
     */
     crossTabPlots.writeCrossTabsJson=writeCrossTabsJson;
+    crossTabPlots.equidistance=equidistance;
+    crossTabPlots.equimass=equimass;
+
 }
 
 
 //Kripanshu Bhargava bivariatePlot(Scatter plot)
 
 var data_plot = [];
-
+var heatxaxis,heatyaxis;
 function bivariatePlot(x_Axis, y_Axis, x_Axis_name, y_Axis_name) {
-
+heatxaxis=x_Axis_name;
+heatyaxis=y_Axis_name;
 
     document.getElementById('scatterplot').style.display = "block";
-    document.getElementById('NAcount').style.display = "block";
+  //  document.getElementById('NAcount').style.display = "block";
     d3.select("#scatterplot").html("");
     d3.select("#scatterplot").select("svg").remove();
 
@@ -1902,7 +1915,7 @@ function bivariatePlot(x_Axis, y_Axis, x_Axis_name, y_Axis_name) {
     // d3.select("#heatchart").select("svg").remove();
     // d3.select("#linechart").select("svg").remove();
     // d3.select("#linechart").html("");
-    d3.select("#heatchart").html("");
+    //d3.select("#heatchart").html("");
     // $("#NAcount").html("");
 
 
@@ -2193,17 +2206,20 @@ function bivariatePlot(x_Axis, y_Axis, x_Axis_name, y_Axis_name) {
      */
 //heatmap
 
-
+    document.getElementById('NAcount').style.display = "block";
     d3.select("#NAcount").text("There are " + nanCount + " number of NA values in the relation.");
-    // document.getElementById('heatchart').style.display = "block";
-    heatmap(x_Axis_name, y_Axis_name);
+
+  //  heatmap(x_Axis_name, y_Axis_name);
 
 }
 
+
+
 //Kripanshu Bhargava bivariatePlot(Heatmap)
-function heatmap(x_Axis_name, y_Axis_name) {
-
-
+function heatmap(x_Axis_name,y_Axis_name) {
+// var x_Axis_name=heatxaxis;
+// var y_Axis_name=heatyaxis;
+    document.getElementById('heatchart').style.display = "block";
     d3.select("#heatChart").select("svg").remove();
     $('#heatchart').html("");
 
@@ -2403,14 +2419,14 @@ function heatmap(x_Axis_name, y_Axis_name) {
 
 }
 
-/*
+
 //Kripanshu Bhargava bivariatePlot(linechart)
-function linechart() {
+function linechart(x_Axis_name,y_Axis_name) {
     document.getElementById('linechart').style.display = "block";
     d3.select("#lineChart").select("svg").remove();
     $('#linechart').html("");
-
-    var w_linechart = 500;
+var padding = 10;
+    var w_linechart = 480;
     var h_linechart = 300;
     var margin_linechart = {top: 20, right: 80, bottom: 30, left: 50};
     var width_linechart = w_linechart - margin_linechart.left - margin_linechart.right;
@@ -2499,8 +2515,27 @@ function linechart() {
             .data(params.data)
             .exit()
             .remove();
-    }
 
+
+
+    }
+    svg.append("text")
+        .attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
+        .attr("transform", "translate(" + padding  + "," + (height / 3) + ")rotate(-90)")  // text is drawn off the screen top left, move down and out and rotate
+        .text(y_Axis_name)
+        .style("fill", "#424242")
+        .style("text-indent","20px")
+        .style("font-size","12px")
+        .style("font-weight","bold");
+
+    svg.append("text")
+        .attr("text-anchor", "middle")  // this makes it easy to centre the text as the transform is applied to the anchor
+        .attr("transform", "translate(" + (width / 5) + "," + (height - padding - 128 ) + ")")  // centre below axis
+        .text(x_Axis_name)
+        .style("fill", "#424242")
+        .style("text-indent","20px")
+        .style("font-size","12px")
+        .style("font-weight","bold");
     plot.call(chart, {
         data: data_plot,
         axis: {
@@ -2510,7 +2545,7 @@ function linechart() {
     });
 }
 
-*/
+
 ////////////////////////////////////////////
 // everything below this point is a function
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -4425,8 +4460,8 @@ function estimate(btn) {
         }
 
         estimated = true;
-        // d3.select("#results")
-        // .style("display", "block");
+         d3.select("#left_thumbnail")
+         .style("display", "block");
         d3.select("#result_left")
             .style("display", "block");
         d3.select("#result_left1")
@@ -4437,10 +4472,10 @@ function estimate(btn) {
         /* d3.select("#resultsView")
          .style("display", "block");
          */
-        d3.select("#scatterplot")
-            .style("display", "block");
-        d3.select("#heatchart")
-            .style("display", "block");
+        // d3.select("#scatterplot")
+        //     .style("display", "block");
+        // d3.select("#heatchart")
+        //     .style("display", "block");
         d3.select("#modelView")
             .style("display", "block");
 
@@ -4567,7 +4602,8 @@ function explore(btn) {
         estimated = true;
         //  d3.select("#results")
         // .style("display", "block");
-
+        d3.select("#left_thumbnail")
+            .style("display", "block");
         d3.select("#result_left")
             .style("display", "block");
         d3.select("#result_left1")
@@ -4578,10 +4614,10 @@ function explore(btn) {
          d3.select("#resultsView")
          .style("display", "block");
          */
-        d3.select("#scatterplot")
-            .style("display", "block");
-        d3.select("#heatchart")
-            .style("display", "block");
+        // d3.select("#scatterplot")
+        //     .style("display", "block");
+        // d3.select("#heatchart")
+        //     .style("display", "block");
         d3.select("#modelView_Container")
             .style("display", "block");
 
@@ -4987,11 +5023,38 @@ function viz_explore(m, json_vizexplore, model_name_set) {
     //  console.log(" the x length is : "+ y_axis.length);
     //document.getElementById('tabular_chart1').style.display = "block";
     //document.getElementById('tabular_chart2').style.display = "block";
-    document.getElementById('scatterplot').style.display = "none";
+  //  document.getElementById('scatterplot').style.display = "none";
     bivariatePlot(x_axis, y_axis, get_data[0], get_data[1]);
-    //  crossTabDensityPlot(x_axis,y_axis,get_data[0],get_data[1]);
+    $('#scatterplot_img').on('click', function(){
+        $("#scatterplot_img").fadeOut("fast").fadeIn().fadeTo("fast",1.0);
+    });
+    $('#heatmap_img').on('click', function(){
+        $("#heatmap_img").fadeOut("fast").fadeIn().fadeTo("fast",1.0);
+    });
+    $('#linechart_img').on('click', function(){
+        $("#linechart_img").fadeOut("fast").fadeIn().fadeTo("fast",1.0);
+    });
+    $('#scatterplot_img').click(function() {
+        //document.getElementById('scatterplot_img').style.display = "block";
+        document.getElementById('heatchart').style.display = "none";
+        document.getElementById('linechart').style.display = "none";
+        bivariatePlot(x_axis, y_axis, get_data[0], get_data[1]);
+    });
 
-   crossTabPlots(get_data[0], get_data[1]);
+
+    $('#heatmap_img').click(function() {
+        document.getElementById('scatterplot').style.display = "none";
+        document.getElementById('linechart').style.display = "none";
+        heatmap(get_data[0],get_data[1]);
+    });
+    $('#linechart_img').click(function() {
+        document.getElementById('heatchart').style.display = "none";
+        document.getElementById('scatterplot').style.display = "none";
+       linechart(get_data[0],get_data[1]);
+    });
+    //  crossTabDensityPlot(x_axis,y_axis,get_data[0],get_data[1]);
+var empty=[];
+   crossTabPlots(get_data[0], get_data[1],empty);
 
 
     /*
@@ -5215,6 +5278,7 @@ function viz_explore(m, json_vizexplore, model_name_set) {
              .append("h5")
              .text("CROSS-TABS ")
              .style("color", "#424242")
+             .style("overflow","auto")
          ;
 
          var sv = d3.select("#tabular_2").append("svg").attr("width", "100%").attr("height", "100%").style("overflow", "visible");
@@ -5238,7 +5302,7 @@ function viz_explore(m, json_vizexplore, model_name_set) {
 
                      if (rownames[k] === data[z].rowname && colnames[m] === data[z].colname) {
                          tr.append("td").style("border", 1).style("text-align", "center").style("position", "relative").style("background-color", varColor).text(data[z].value);
-                        // console.log("data: "+ data[z].value);
+                         console.log("data for table: "+ data[z].value);
                      }
                  }
 
@@ -5347,15 +5411,52 @@ var breakcount=1;
             var inputvalue1,inputvalue2;
             inputvalue1=zbreaks[this.id].var1.value;
             inputvalue2=zbreaks[this.id].var2.value;
-
-            console.log("val1:",inputvalue1);
-            console.log("val2:",inputvalue2);
+            
+            // console.log("val1:",inputvalue1);
+            // console.log("val2:",inputvalue2);
 
             document.getElementById("input1").value = inputvalue1;
             document.getElementById("input2").value = inputvalue2;
+
+            var json_obj=zbreaks[this.id];
+            var varn1,varn2,varsize1,varsize2;
+
+            if(json_obj.length===0)
+            {
+                console.log("break not called")
+            }else{
+               // console.log("break button called in crosstab")
+                varn1=json_obj.var1.buttonType;
+                varn2=json_obj.var2.buttonType;
+                varsize1=json_obj.var1.value;
+                varsize2=json_obj.var2.value;
+                // console.log("parameters break crosstab:",varn1);
+                // console.log("parameters break crosstab:",varn2);
+                // console.log("paramters break crosstab:",varsize1);
+                // console.log("parameters break crosstab:",varsize2);
+                if(varn1==="equidistance")
+                {
+                    crossTabPlots.equidistance(get_data[0], varsize1);
+                }
+                else if (varn1==="equimass")
+                {
+                    crossTabPlots.equimass(get_data[0],varsize1);
+                }
+
+                if(varn2==="equidistance")
+                {
+                    crossTabPlots.equidistance(get_data[1], varsize2);
+                } else if (varn2==="equimass")
+                {
+                    crossTabPlots.equimass(get_data[1], varsize2);
+                }
+
+
+            }
+          //  crossTabPlots(get_data[0], get_data[1],zbreaks[this.id]);
            // console.log("break called :" + this.id);
 
-            //console.log("zparams for breaks now: "+zbreaks[this.id]);
+           // console.log("zparams for breaks now: "+zbreaks[this.id]);
         });
 
 
@@ -6079,7 +6180,7 @@ function tabRight(tabid) {
 
     document.getElementById('univariate').style.display = 'none';
     document.getElementById('setx').style.display = 'none';
-    // document.getElementById('results').style.display = 'none';
+    document.getElementById('left_thumbnail').style.display = 'none';
     document.getElementById('result_left').style.display = 'none';
     document.getElementById('result_left1').style.display = 'none';
     document.getElementById('result_right').style.display = 'none';
@@ -6101,6 +6202,7 @@ function tabRight(tabid) {
         document.getElementById('btnBivariate').setAttribute("class", "btn active");
         //  document.getElementById('results').style.display = 'block';
         document.getElementById('modelView_Container').style.display = 'block';
+        document.getElementById('left_thumbnail').style.display = 'block';
         document.getElementById('result_left').style.display = 'block';
         document.getElementById('result_left1').style.display = 'block';
         document.getElementById('result_right').style.display = 'block';

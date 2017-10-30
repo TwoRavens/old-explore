@@ -390,11 +390,13 @@ div#scatterplot svg {
     shape-rendering: crispEdges;
 
 }
-
-div#scatterplot .axis path,
-div#scatterplot .axis line {
+div#scatterplot .axis line{fill: none;
+    stroke: #BBDEFB;
+    shape-rendering: crispEdges;}
+div#scatterplot .axis path
+{
     fill: none;
-    stroke: rgba(0, 0, 0, 0.1);
+    stroke: #BDBDBD;
     shape-rendering: crispEdges;
 }
 
@@ -526,6 +528,33 @@ div#resultsView_tabular  #btnDiv {
     fill: #fff;
 }
 
+#tooltipPlotA {
+    visibility: hidden;
+    width: 120px;
+    background-color: grey;
+    color: #fff;
+    text-align: center;
+    border-radius: 4px;
+    padding: 4px 0;
+    margin: 1px;
+    /* Position the tooltip */
+    position: relative;
+    z-index: 1;
+}
+
+#tooltipPlotB
+{
+    visibility: hidden;
+    width: 120px;
+    background-color: grey;
+    color: #fff;
+    text-align: center;
+    border-radius: 4px;
+    padding: 4px 0;
+    margin: 1px;
 
 
-
+    /* Position the tooltip */
+    position: relative;
+    z-index: 1;
+}
