@@ -255,31 +255,51 @@
 
 
                     <div id="result_left"
-                         style="width: 50%; height: 90%; float:left;background-color: white; display:none; border-right:groove;  overflow:auto; white-space:nowrap; ">
+                         style="width: 50%; height: 90%; float:left;background-color: white; display:none; border-right:ridge; border-bottom: ridge;  overflow:auto; white-space:nowrap; ">
                         <!--div id="resultsView" class="container" style="width:100%; height: 100%; background-color:white; display:none; float:left; overflow:auto; white-space:nowrap; border-right: groove" -->
-<div id="result_left1"
-     style="width: 100%; height: 80%; float:left;background-color: white; display:none; border-right:groove; border-bottom: groove ;overflow:auto; white-space:nowrap;  ">
+<div id="left_thumbnail" style="width: 100%; height: 20%; background-color: white; display:none; margin-top: 3%; margin-right: 3%; border-bottom: ridge ;overflow:auto; white-space:nowrap;">
+                     <!--<figure style="float: left;">  <img src="data/thumb1.png" alt="scatter_plot" style="width:15%; height:80% ; float: left;margin: 10px; border: 1px solid #ddd;border-radius: 4px;padding: 5px;">-->
+    <!--<figcaption>Scatter Plot</figcaption></figure>-->
+    <!--<figure style="float: left;"><img src="data/thumb2.png" alt="heatmap" style="width:15%; height:80% ;float: left; margin: 10px;border: 1px solid #ddd;border-radius: 4px;padding: 5px;">-->
+    <!--<figcaption>Heatmap</figcaption></figure>-->
+   <!--<figure style="float: left;"> <img src="data/thumb3.png" alt="linechart" style="width:15%; height:80% ; float: left; margin: 10px;border: 1px solid #ddd;border-radius: 4px;padding: 5px;">-->
+    <!--<figcaption>Linechart</figcaption></figure>-->
 
-                        <div id="scatterplot" class="container3"
-                             style="width: 500px; height: 60%; background-color: white;display: none; overflow:auto;margin-bottom:10px ">
-                        </div>
-                            <div id="heatchart" class="container4"
-                                 style="width: 500px; height:60%;  display: none; overflow:auto; background-color: #FFEBEE; margin-bottom:20px "></div>
+<table>
+    <tr>
+        <th>
+            <figure style="float: left;">
+                <img id="scatterplot_img"src="data/thumb1.png" alt="scatter_plot" style="width:75%; height:75% ;  border: 1px solid #ddd;border-radius: 3px;padding: 5px; margin: 3%;cursor: pointer;">
+                <figcaption style="text-align: center;">Scatter Plot</figcaption>
+            </figure>
+        </th>
+        <th><figure style="float: left;">
+                    <img id="heatmap_img" src="data/thumb2.png" alt="heatmap" style="width:75%; height:75% ;border: 1px solid #ddd;border-radius: 3px;padding: 5px;margin: 3%;cursor: pointer;">
+                    <figcaption style="text-align: center;">Heatmap</figcaption>
+             </figure>
+        </th>
+                <th><figure style="float: left;">
+                    <img id="linechart_img"src="data/thumb3.png" alt="linechart" style="width:75%; height:75% ; border: 1px solid #ddd;border-radius: 3px;padding: 5px;margin: 3%;cursor: pointer;">
+                    <figcaption style="text-align: center;">Linechart</figcaption>
+                </figure>
+                </th>
+            </tr>
+        </table>
+        </div>
+                        <div id="result_left1" style="width: 100%; height: 60%; text-align: center; margin-top: 3%; background-color: white; display:none; overflow:auto; white-space:nowrap;  ">
+                                    <div id="scatterplot" class="container3" style="width: 500px; height: 80%; background-color: white; float:left; display: none; overflow:auto;margin:5% "></div>
+                                    <div id="heatchart" class="container4" style="width: 500px; height:80%;  display: none; float: left; overflow:auto; background-color: #FFEBEE;margin:5%  "></div>
+                                    <div id="linechart" class="container4" style="width: 500px; height:80%; background-color:white ;display: none; float: left;overflow:auto;margin:5% "></div>
 
-                        <h5 id="NAcount"style=" margin-left: 20px; display: none; "></h5>
-
-
-</div>
-                            <!--<button id="linechart_welcome"  type="button" class="btn btn-danger" onclick="linechart()"-->
+        </div>
+                                    <!--<button id="linechart_welcome"  type="button" class="btn btn-danger" onclick="linechart()"-->
                                     <!--style=" display: block; margin:0 auto; position: relative; "> Linechart-->
                             <!--</button>-->
 
-
-                        <!--<div id="linechart" class="container4"-->
-                             <!--style="width: 500px; height:320px; background-color:white ;display: none; overflow:auto;"></div>-->
+                        <div style="border-bottom: ridge; display: inline-block; width: 100%; margin-bottom: 2%; text-align: center;">   <h5 id="NAcount" style=" margin-bottom: 0; display: none; "></h5></div>
 
                         <div id="resultsView_statistics" class="container2" ;
-                        style="width:100%; height:20%; background-color:white; display:none; float:left;overflow:auto; white-space:nowrap;border-right: groove; border-bottom: groove;"></div>
+                        style="width:100%; height:15%; background-color:white; display:none; float:left; white-space:nowrap; margin-bottom: 3%; border-bottom: ridge;"></div>
                         </div>
 
                     <div id="result_right" style="width: 50%;height: 90%; float:right;background-color: white; display:none; border-right:groove; overflow:auto; white-space:nowrap;">
@@ -288,7 +308,7 @@
                             <!--div id="toggle_tab" style=" width: auto;height: 10%;  display:block; white-space:nowrap; margin:0 auto; position: relative; "> <button type="button" id="TabToggle" class="btn btn-outline-warning" onclick="toggleChange(); " >Selection</button><button type="button" id="TabToggle1" class="btn btn-outline-warning" onclick="toggleChange();  ">Cross-Tabs</button></--div-->
                             <div id="SelectionData"style="width: 100% ; height: 55%;   display: none; overflow: auto; margin-top: 10px; border-bottom-style: inset;">
 
-                                <fieldset style="margin: 5%">
+                                <fieldset style="margin: 3%">
                                    <h4 style="text-align: center">Data Distribution Selection</h4>
                                     <p style="font-family: Arial, Helvetica, sans-serif; font-size: 12px" >Enter the numbers for both plots respectively to specify the distribution of the cross-tabs</p>
                                     <p id="boldstuff" style="color: #2a6496; font-family: Arial, Helvetica, sans-serif; font-size: 12px ">Select between Equidistant and Equimass</p>
@@ -306,9 +326,9 @@
                                 </div>
 
                                 <button id="SelectionData1"  type="button" class="btn btn-default btn-sm" style=" display: block; margin:0 auto; position: relative; "> Create </button>
-                                <h5 style="color: #ac2925; margin: 5%"> Selection History </h5>
-                                <p style="color:#269abc; margin: 5%; font-family: Helvetica Neue, Helvetica, Arial, sans-serif;">Previous selection data is stored in the breaks. Select any break to view data.</p>
-                                <span id="breakspace" style=" display: block; overflow: auto; " onclick=""></span>
+                                <h5 style="color: #ac2925; margin-top: 1%; margin-left: 2%;"> Selection History </h5>
+                                <p style="color:#269abc; margin-top: 1%; margin-left: 2%; font-family: Helvetica Neue, Helvetica, Arial, sans-serif;">Previous selection data is stored in the breaks. Select any break to view data.</p>
+                                <div id="breakspace" style=" display: inline-block; overflow: auto; width: 100%;" onclick=""></div>
                             </div>
 
                            <div id="tabular_1" style="width: 100%; height: 30%; display: none; border-bottom-style: inset; margin-top: 3%; overflow: auto" >
@@ -316,7 +336,7 @@
                             <div id="plotB" style="width: 50% ; height: 100%; float: right;  ; display: none; overflow: auto ; ">plotB</div>
 
                            </div>
-                            <div id="tabular_2"  style="width: 100%;height: 40%; display: none;  border-bottom-style: inset; overflow:auto;"></div>
+                            <div id="tabular_2"  style="width: 100%;height: 50%; display: none;  border-bottom-style: inset; overflow:auto;"></div>
                         </div>
                         <!--<div id="resultsView_statistics" class="container2" ;-->
                              <!--style="width:100%; height: 40%; background-color:white; display:none; clear:left;  float:right;overflow:auto; white-space:nowrap;border-right: groove; border-bottom: groove;"></div>-->
