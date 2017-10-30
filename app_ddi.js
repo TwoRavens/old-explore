@@ -4937,11 +4937,13 @@ function viz(m) {
 
 
 var zbreaks=[];
+var zbreaks_tabular=[];
 
 //KRIPANSHU BHARGAVA, this is viz for explore
 function viz_explore(m, json_vizexplore, model_name_set) {
 
     zbreaks=[];
+    zbreaks_tabular=[];
    // d3.select("#resultsView_tabular").html("");
     d3.select("#plotA").html("");
     d3.select("#plotB").html("");
@@ -5390,6 +5392,7 @@ var breakcount=1;
         estimateLadda.stop();  // stop spinner
         estimated = true;
         zbreaks.push(crossTabPlots.writeCrossTabsJson());
+        zbreaks_tabular.push(json.tabular);
 
         d3.select("#breakspace")
             .append("span")
@@ -5406,7 +5409,7 @@ var breakcount=1;
             d3.select("#tabular_2").html("");
             removeData();
             zparams.zcrosstab.push(zbreaks[this.id]);
-            explore_crosstab(json);
+            explore_crosstab(zbreaks_tabular[this.id]);
 
             var inputvalue1,inputvalue2;
             inputvalue1=zbreaks[this.id].var1.value;
@@ -5457,6 +5460,7 @@ var breakcount=1;
            // console.log("break called :" + this.id);
 
            // console.log("zparams for breaks now: "+zbreaks[this.id]);
+            console.log("zparams for breaks_tabular now: ",zbreaks_tabular[this.id]);
         });
 
 
