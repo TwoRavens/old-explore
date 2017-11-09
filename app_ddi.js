@@ -194,7 +194,7 @@ var modelCount = 0;
 var callHistory = []; // unique to the space. saves transform and subset calls.
 var citetoggle = false;
 var connect_nodes = [];
-
+var rightPanelList=[];
 // transformation toolbar options
 var transformList = ["log(d)", "exp(d)", "d^2", "sqrt(d)", "interact(d,e)"];
 
@@ -356,6 +356,8 @@ function disconnectAll() {
     // update existing links
     // VJD: dashed links between pebbles are "selected". this is disabled for now
     path.classed('selected', function (d) {
+      //  console.log("pebbles are selected : ",d);
+
         return;
     })//return d === selected_link; })
         .style('marker-start', 0)
@@ -485,6 +487,7 @@ function connectAll() {
     // update existing links
     // VJD: dashed links between pebbles are "selected". this is disabled for now
     path.classed('selected', function (d) {
+       // console.log("pebbles are selected1: ", d);
         return;
     })//return d === selected_link; })
         .style('marker-start', function (d) {
@@ -691,7 +694,7 @@ readPreprocess(url = pURL, p = preprocess, v = null, callback = function () {
         }
         ;
 
-          console.log("allNodes: ", allNodes);
+          //console.log("allNodes: ", allNodes);
         // Reading the zelig models and populating the model list in the right panel.
         d3.json("data/explore.json", function (error, json) {
             if (error) return console.warn(error);
@@ -2592,7 +2595,7 @@ var padding = 10;
 
 // scaffolding is called after all external data are guaranteed to have been read to completion. this populates the left panel with variable names, the right panel with model names, the transformation tool, an the associated mouseovers. its callback is layout(), which initializes the modeling space
 function scaffolding(callback) {
-    //console.log("scaffolding called");
+    console.log("scaffolding called");
     //console.log(valueKey);
     // establishing the transformation element
     d3.select("#transformations")
@@ -2729,14 +2732,14 @@ function scaffolding(callback) {
         .attr("onmouseout", "$(this).popover('toggle');")
         .attr("data-original-title", "Summary Statistics");
 
-
-// populating the right panel in explore
-
+populatingRightPanel();
+//Kripanshu Bhargava :populating the right panel in explore
+function populatingRightPanel() {
     d3.select("#univariate")
         .style('height', 2000)
         .style('overfill', 'scroll');
 
-    var modellist = Object.keys(mods);
+    var modellist = rightPanelList;
 //console.log("This data would be written "+  modellist);
     d3.select("#univariate").selectAll("p")
         .data(modellist)
@@ -2761,12 +2764,23 @@ function scaffolding(callback) {
         .attr("data-original-title", "Model Description")
         .attr("data-content", function (d) {
             return mods[d];
-        });
+        })
+        .on('click', function(d)
+        {
+            console.log(d," is clicked");
+            univariatePart(d);
+        })
+    ;
 
+
+
+}
     if (typeof callback === "function") {
         callback(); // this calls layout() because at this point all scaffolding is up and ready
     }
-}
+ // Kripanshu Bhargava:  object of scaffolding function created in order to access the nested function populatingRightPanel
+    scaffolding.populatingRightPanel=populatingRightPanel;
+ }
 
 /*
  $("#clearbtn").click(function() {
@@ -3380,6 +3394,7 @@ function restart() {
     // update existing links
     // VJD: dashed links between pebbles are "selected". this is disabled for now
     path.classed('selected', function (d) {
+       // console.log("pebbles are selected2: ", d);
         return;
     })//return d === selected_link; })
         .style('marker-start', function (d) {
@@ -3482,8 +3497,16 @@ function restart() {
 
     // circle (node) group
     circle = circle.data(nodes, function (d) {
+       // console.log(" pebble click search : "+ d);
         return d.id;
-    });
+    })
+        .on('click', function (d) {
+            console.log(" pebble click search : ", d.name);
+        rightPanelList.push(d.name);
+
+            scaffolding.populatingRightPanel();
+        })
+            ;
 
 
     // update existing nodes (reflexive & selected visual states)
@@ -4564,10 +4587,16 @@ function estimate(btn) {
 //Kripanshu Bhargava : Univariate function call
 
 
-function univariatePart()
+function univariatePart(node_var)
 {
+    document.getElementById("decisionTree").innerHTML="";
+
+    d3.select("#rightpanel")
+        .attr("class","sidepanel container clearfix expandpanel");
     d3.select("#decisionTree")
         .style("display", "block");
+    d3.select("#univariate")
+        .style("display", "none");
     d3.select("#left_thumbnail")
         .style("display", "none");
     d3.select("#result_left")
@@ -4606,6 +4635,261 @@ function univariatePart()
         .style("display", "none");
 
 
+
+    //code for the  decision tree map
+
+    var m = [15, 100, 15, 100],
+        w = 800 - m[1] - m[3],
+        h = 600 - m[0] - m[2],
+        i = 0,
+        rect_width = 60,
+        rect_height = 20,
+        max_link_width = 20,
+        min_link_width = 1.5,
+        char_to_pxl = 6,
+        root;
+    d3.json("data/iris.json", load_dataset);
+
+    var tree = d3.layout.tree()
+        .size([h, w]);
+
+    var diagonal = d3.svg.diagonal()
+        .projection(function(d) { return [d.x, d.y]; });
+
+    var vis = d3.select("#decisionTree").append("svg:svg")
+        .attr("width", w + m[1] + m[3])
+        .attr("height", h + m[0] + m[2] + 1000)
+        .append("svg:g")
+        .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
+
+    // global scale for link width
+    var link_stoke_scale = d3.scale.linear();
+
+    var color_map = d3.scale.category10();
+
+    // stroke style of link - either color or function
+    var stroke_callback = "#ccc";
+
+    function load_dataset(json_data) {
+        root = json_data;
+        root.x0 = 0;
+        root.y0 = 0;
+
+        var n_samples = root.samples;
+        var n_labels = root.value.length;
+
+        if (n_labels >= 2) {
+            stroke_callback = mix_colors;
+        } else if (n_labels === 1) {
+            stroke_callback = mean_interpolation(root);
+        }
+
+        link_stoke_scale = d3.scale.linear()
+            .domain([0, n_samples])
+            .range([min_link_width, max_link_width]);
+
+        function toggleAll(d) {
+            if (d && d.children) {
+                d.children.forEach(toggleAll);
+                toggle(d);
+            }
+        }
+
+        // Initialize the display to show a few nodes.
+        root.children.forEach(toggleAll);
+
+        update(root);
+    }
+
+    function update(source) {
+        var duration = d3.event && d3.event.altKey ? 5000 : 500;
+
+        // Compute the new tree layout.
+        var nodes = tree.nodes(root).reverse();
+
+        // Normalize for fixed-depth.
+        nodes.forEach(function(d) { d.y = d.depth * 180; });
+
+        // Update the nodes…
+        var node = vis.selectAll("g.node")
+            .data(nodes, function(d) { return d.id || (d.id = ++i); });
+
+        // Enter any new nodes at the parent's previous position.
+        var nodeEnter = node.enter().append("svg:g")
+            .attr("class", "node")
+            .attr("transform", function(d) { return "translate(" + source.x0 + "," + source.y0 + ")"; })
+            .on("click", function(d) { toggle(d); update(d); });
+
+        nodeEnter.append("svg:rect")
+            .attr("x", function(d) {
+                var label = node_label(d);
+                var text_len = label.length * char_to_pxl;
+                var width = d3.max([rect_width, text_len]);
+                return -width / 2;
+            })
+            .attr("width", 1e-6)
+            .attr("height", 1e-6)
+            .attr("rx", function(d) { return d.type === "split" ? 2 : 0;})
+            .attr("ry", function(d) { return d.type === "split" ? 2 : 0;})
+            .style("stroke", function(d) { return d.type === "split" ? "steelblue" : "olivedrab";})
+            .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
+
+        nodeEnter.append("svg:text")
+            .attr("dy", "12px")
+            .attr("text-anchor", "middle")
+            .text(node_label)
+            .style("fill-opacity", 1e-6);
+
+        // Transition nodes to their new position.
+        var nodeUpdate = node.transition()
+            .duration(duration)
+            .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+
+        nodeUpdate.select("rect")
+            .attr("width", function(d) {
+                var label = node_label(d);
+                var text_len = label.length * char_to_pxl;
+                var width = d3.max([rect_width, text_len])
+                return width;
+            })
+            .attr("height", rect_height)
+            .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
+
+        nodeUpdate.select("text")
+            .style("fill-opacity", 1);
+
+        // Transition exiting nodes to the parent's new position.
+        var nodeExit = node.exit().transition()
+            .duration(duration)
+            .attr("transform", function(d) { return "translate(" + source.x + "," + source.y + ")"; })
+            .remove();
+
+        nodeExit.select("rect")
+            .attr("width", 1e-6)
+            .attr("height", 1e-6);
+
+        nodeExit.select("text")
+            .style("fill-opacity", 1e-6);
+
+        // Update the links
+        var link = vis.selectAll("path.link")
+            .data(tree.links(nodes), function(d) { return d.target.id; });
+
+        // Enter any new links at the parent's previous position.
+        link.enter().insert("svg:path", "g")
+            .attr("class", "link")
+            .attr("d", function(d) {
+                var o = {x: source.x0, y: source.y0};
+                return diagonal({source: o, target: o});
+            })
+            .transition()
+            .duration(duration)
+            .attr("d", diagonal)
+            .style("stroke-width", function(d) {return link_stoke_scale(d.target.samples);})
+            .style("stroke", stroke_callback);
+
+        // Transition links to their new position.
+        link.transition()
+            .duration(duration)
+            .attr("d", diagonal)
+            .style("stroke-width", function(d) {return link_stoke_scale(d.target.samples);})
+            .style("stroke", stroke_callback);
+
+        // Transition exiting nodes to the parent's new position.
+        link.exit().transition()
+            .duration(duration)
+            .attr("d", function(d) {
+                var o = {x: source.x, y: source.y};
+                return diagonal({source: o, target: o});
+            })
+            .remove();
+
+        // Stash the old positions for transition.
+        nodes.forEach(function(d) {
+            d.x0 = d.x;
+            d.y0 = d.y;
+        });
+    }
+
+    // Toggle children.
+    function toggle(d) {
+        if (d.children) {
+            d._children = d.children;
+            d.children = null;
+        } else {
+            d.children = d._children;
+            d._children = null;
+        }
+    }
+
+    // Node labels
+    function node_label(d) {
+        if (d.type === "leaf") {
+            // leaf
+            var formatter = d3.format(".2f");
+            var vals = [];
+            d.value.forEach(function(v) {
+                vals.push(formatter(v));
+            });
+            return "[" + vals.join(", ") + "]";
+        } else {
+            // split node
+            return d.label;
+        }
+    }
+
+    /**
+     * Mixes colors according to the relative frequency of classes.
+     */
+    function mix_colors(d) {
+        var value = d.target.value;
+        var sum = d3.sum(value);
+        var col = d3.rgb(0, 0, 0);
+        value.forEach(function(val, i) {
+            var label_color = d3.rgb(color_map(i));
+            var mix_coef = val / sum;
+            col.r += mix_coef * label_color.r;
+            col.g += mix_coef * label_color.g;
+            col.b += mix_coef * label_color.b;
+        });
+        return col;
+    }
+
+
+    /**
+     * A linear interpolator for value[0].
+     *
+     * Useful for link coloring in regression trees.
+     */
+    function mean_interpolation(root) {
+
+        var max = 1e-9,
+            min = 1e9;
+
+        function recurse(node) {
+            if (node.value[0] > max) {
+                max = node.value[0];
+            }
+
+            if (node.value[0] < min) {
+                min = node.value[0];
+            }
+
+            if (node.children) {
+                node.children.forEach(recurse);
+            }
+        }
+        recurse(root);
+
+        var scale = d3.scale.linear().domain([min, max])
+            .range(["#2166AC","#B2182B"]);
+
+        function interpolator(d) {
+            return scale(d.target.value[0]);
+        }
+
+        return interpolator;
+    }
 
 
 
@@ -4664,6 +4948,7 @@ function explore(btn) {
         d3.select("#modelView").html("");
         //   d3.select("#resultsView_tabular").html("");
         d3.select("#resultsView_statistics").html("");
+
 
         estimated = true;
           d3.select("#decisionTree")
@@ -6163,7 +6448,9 @@ function erase() {
     leftpanelMedium();
     rightpanelMedium();
     document.getElementById("legend").setAttribute("style", "display:none");
-
+    rightPanelList=[];
+    document.getElementById("univariate").innerHTML="";
+    document.getElementById("decisionTree").innerHTML="";
     tabLeft('tab1');
 
     jQuery.fn.d3Click = function () {
@@ -6271,8 +6558,9 @@ function tabRight(tabid) {
         document.getElementById('btnBivariate').setAttribute("class", "btn btn-default");
         document.getElementById('btnUnivariate').setAttribute("class", "btn active");
         document.getElementById('univariate').style.display = 'block';
+        var initial_name="ccode";
+        univariatePart(initial_name);
 
-univariatePart();
 
         d3.select("#rightpanel")
             .attr("class", "sidepanel container clearfix");
@@ -6283,6 +6571,8 @@ univariatePart();
         if (estimated === false) {
             d3.select("#rightpanel")
                 .attr("class", "sidepanel container clearfix");
+            document.getElementById('univariate').style.display = 'block';
+            document.getElementById('decisionTree').style.display = 'none';
         }
         else if (righttab == "btnUniivariate" | d3.select("#rightpanel").attr("class") == "sidepanel container clearfix") {
             toggleR();
