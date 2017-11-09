@@ -1000,6 +1000,8 @@ varn1="equimass";
         plotA_size = parseInt(d3.select("#input1")[0][0].value);
         varsize1 = plotA_size;
         equidistance(PlotNameA, plotA_size);
+        document.getElementById("plotA_status").innerHTML = PlotNameA + " : " + varn1 +"  distribution with  "+ varsize1 + " divisions";
+
 
         // console.log(" the varn1 : " + varn1);
         // console.log("plotAsize:" + plotA_size);
@@ -1011,6 +1013,7 @@ varn1="equimass";
         varsize1 = plotA_sizem
         equimass(PlotNameA, plotA_sizem);
         varn1 = "equimass";
+        document.getElementById("plotA_status").innerHTML = PlotNameA + " : " + varn1 +"  distribution with  "+ varsize1 + " divisions";
         // console.log(" the varn1 : " + varn1);
         // console.log("plotAsize:" + plotA_sizem);
     });
@@ -1020,6 +1023,7 @@ varn1="equimass";
         plotB_size = parseInt(d3.select("#input2")[0][0].value);
         equidistance(PlotNameB, plotB_size);
         varsize2 = plotB_size;
+        document.getElementById("plotB_status").innerHTML =  PlotNameB + " : " + varn2 +"  distribution with  "+ varsize2 + " divisions";
         // console.log(" the varn2 : " + varn2);
         // console.log("plotBsize:" + plotB_size);
     });
@@ -1029,6 +1033,7 @@ varn1="equimass";
         plotB_sizem = parseInt(d3.select("#input2")[0][0].value);
         equimass(PlotNameB, plotB_sizem);
         varsize2 = plotB_sizem;
+        document.getElementById("plotB_status").innerHTML =  PlotNameB + " : " + varn2 +"  distribution with  "+ varsize2 + " divisions";
         // console.log(" the varn2 : " + varn2);
         // console.log("plotBsize:" + plotB_sizem);
     });
@@ -4555,6 +4560,61 @@ function estimate(btn) {
 
 }
 
+
+//Kripanshu Bhargava : Univariate function call
+
+
+function univariatePart()
+{
+    d3.select("#decisionTree")
+        .style("display", "block");
+    d3.select("#left_thumbnail")
+        .style("display", "none");
+    d3.select("#result_left")
+        .style("display", "none");
+    d3.select("#result_left1")
+        .style("display", "none");
+    d3.select("#result_right")
+        .style("display", "none");
+    /*
+     d3.select("#resultsView")
+     .style("display", "block");
+     */
+    // d3.select("#scatterplot")
+    //     .style("display", "block");
+    // d3.select("#heatchart")
+    //     .style("display", "block");
+    d3.select("#modelView_Container")
+        .style("display", "none");
+
+    d3.select("#modelView")
+
+        .style("display", "none");
+
+    d3.select("#resultsView_tabular")
+        .style("display", "none");
+
+    d3.select("#plotA")
+        .style("display", "none");
+
+    d3.select("#plotB")
+        .style("display", "none");
+    d3.select("#SelectionData")
+        .style("display", "none");
+
+    d3.select("#resultsView_statistics")
+        .style("display", "none");
+
+
+
+
+
+
+
+
+}
+
+
 // This is the main function for explore app
 function explore(btn) {
     console.log("Explore method called");
@@ -4582,6 +4642,12 @@ function explore(btn) {
 //console.log("This is the url call");
 //console.log(urlcall);
     // explore success method
+
+
+
+
+
+
     function exploreSuccess(btn, json) {
         console.log("ExploreSuccess method called");
         estimateLadda.stop();  // stop spinner
@@ -4600,8 +4666,8 @@ function explore(btn) {
         d3.select("#resultsView_statistics").html("");
 
         estimated = true;
-        //  d3.select("#results")
-        // .style("display", "block");
+          d3.select("#decisionTree")
+         .style("display", "none");
         d3.select("#left_thumbnail")
             .style("display", "block");
         d3.select("#result_left")
@@ -5394,6 +5460,8 @@ var breakcount=1;
         zbreaks.push(crossTabPlots.writeCrossTabsJson());
         zbreaks_tabular.push(json.tabular);
 
+
+
         d3.select("#breakspace")
             .append("span")
             .text("\u00A0 \u00A0 \u00A0 \u00A0   ")
@@ -5421,8 +5489,11 @@ var breakcount=1;
             document.getElementById("input1").value = inputvalue1;
             document.getElementById("input2").value = inputvalue2;
 
+
             var json_obj=zbreaks[this.id];
             var varn1,varn2,varsize1,varsize2;
+
+
 
             if(json_obj.length===0)
             {
@@ -5433,6 +5504,10 @@ var breakcount=1;
                 varn2=json_obj.var2.buttonType;
                 varsize1=json_obj.var1.value;
                 varsize2=json_obj.var2.value;
+
+
+
+
                 // console.log("parameters break crosstab:",varn1);
                 // console.log("parameters break crosstab:",varn2);
                 // console.log("paramters break crosstab:",varsize1);
@@ -5456,11 +5531,12 @@ var breakcount=1;
 
 
             }
+
           //  crossTabPlots(get_data[0], get_data[1],zbreaks[this.id]);
            // console.log("break called :" + this.id);
 
            // console.log("zparams for breaks now: "+zbreaks[this.id]);
-            console.log("zparams for breaks_tabular now: ",zbreaks_tabular[this.id]);
+           // console.log("zparams for breaks_tabular now: ",zbreaks_tabular[this.id]);
         });
 
 
@@ -6181,7 +6257,7 @@ function tabLeft(tab) {
 }
 
 function tabRight(tabid) {
-
+    document.getElementById('decisionTree').style.display = 'block';
     document.getElementById('univariate').style.display = 'none';
     document.getElementById('setx').style.display = 'none';
     document.getElementById('left_thumbnail').style.display = 'none';
@@ -6196,8 +6272,33 @@ function tabRight(tabid) {
         document.getElementById('btnUnivariate').setAttribute("class", "btn active");
         document.getElementById('univariate').style.display = 'block';
 
+univariatePart();
+
         d3.select("#rightpanel")
             .attr("class", "sidepanel container clearfix");
+
+
+
+
+        if (estimated === false) {
+            d3.select("#rightpanel")
+                .attr("class", "sidepanel container clearfix");
+        }
+        else if (righttab == "btnUniivariate" | d3.select("#rightpanel").attr("class") == "sidepanel container clearfix") {
+            toggleR();
+        }
+        righttab = tabid; // a global that may be of use
+        function toggleR() {
+            d3.select("#rightpanel")
+                .attr("class", function (d) {
+                    if (this.getAttribute("class") === "sidepanel container clearfix expandpanel") {
+                        return "sidepanel container clearfix expandpanel";
+                    }
+                    else {
+                        return "sidepanel container clearfix expandpanel";
+                    }
+                });
+        }
     }
 
     else if (tabid == "btnBivariate") {
@@ -6205,6 +6306,7 @@ function tabRight(tabid) {
         // document.getElementById('btnBivariate').setAttribute("class", "btn btn-default");
         document.getElementById('btnBivariate').setAttribute("class", "btn active");
         //  document.getElementById('results').style.display = 'block';
+        document.getElementById('decisionTree').style.display = 'none';
         document.getElementById('modelView_Container').style.display = 'block';
         document.getElementById('left_thumbnail').style.display = 'block';
         document.getElementById('result_left').style.display = 'block';
@@ -6216,14 +6318,14 @@ function tabRight(tabid) {
                 .attr("class", "sidepanel container clearfix");
         }
         else if (righttab == "btnBivariate" | d3.select("#rightpanel").attr("class") == "sidepanel container clearfix") {
-            toggleR()
+            toggleR1();
         }
-        ;
+
     }
 
     righttab = tabid; // a global that may be of use
 
-    function toggleR() {
+    function toggleR1() {
         d3.select("#rightpanel")
             .attr("class", function (d) {
                 if (this.getAttribute("class") === "sidepanel container clearfix expandpanel") {
@@ -6234,6 +6336,7 @@ function tabRight(tabid) {
                 }
             });
     }
+
 }
 
 
