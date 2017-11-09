@@ -2,7 +2,7 @@
 function density(node, div, private) {
     var mydiv;
 
-    console.log(" This is plotjs " + node.name);
+  //  console.log(" This is plotjs " + node.name);
 
     if(div=="subset") {
         mydiv = "#tab2";
@@ -432,8 +432,8 @@ function bars(node, div, private) {
     }
     else {
         for (var i = 0; i < keys.length; i++) {
-            console.log("plotvalues in bars");
-            console.log(node);
+           // console.log("plotvalues in bars");
+            //console.log(node);
             yVals[i] = node.plotvalues[keys[i]];
             xVals[i] = Number(keys[i]);
               if (private) {
