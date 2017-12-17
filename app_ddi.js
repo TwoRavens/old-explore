@@ -4629,6 +4629,7 @@ console.log("the node_var",node_var)
     }
     estimateLadda.start();  // start spinner
     makeCorsRequest(urlcall, btn, explore_treeAppSuccess, explore_treeAppFail, solajsonout);
+    univariatePart();
 
 }
 
