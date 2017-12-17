@@ -23,7 +23,7 @@ if(is_rapache_mode) {
 
 if(!production){
     packageList<-c("Rcpp","VGAM", "AER", "dplyr", "quantreg", "geepack", "maxLik", "Amelia", "Rook","jsonlite","rjson", "devtools", "DescTools", "nloptr","XML", "Zelig")
-
+   # install.packages("rpart","readr")
     # Find an available repository on CRAN
     availableRepos <- getCRANmirrors()
     flag <- availableRepos$Country=="USA" & grepl("https",availableRepos$URL,)
@@ -31,11 +31,15 @@ if(!production){
 
     ## install missing packages, and update if newer version available
     for(i in 1:length(packageList)){
-       if (!require(packageList[i],character.only = TRUE)){
-           install.packages(packageList[i], repos=useRepos)
-       }
+        if (!require(packageList[i],character.only = TRUE)){
+            install.packages(packageList[i], repos="http://lib.stat.cmu.edu/R/CRAN/")
+        }
     }
-    update.packages(ask = FALSE, dependencies = c('Suggests'), oldPkgs=packageList, repos=useRepos)
+    update.packages(ask = FALSE, dependencies = c('Suggests'), oldPkgs=packageList, repos="http://lib.stat.cmu.edu/R/CRAN/")
+    install.packages("caret", dependencies = c("Depends", "Suggests"))
+    install.packages("rpart", dependencies = c("Depends", "Suggests"))
+    install.packages("readr", dependencies = c("Depends", "Suggests"))
+
 }
 
 library(Rook)
@@ -44,6 +48,8 @@ library(jsonlite)
 library(devtools)
 library(DescTools)
 
+
+print("All libraries are called ")
 #if (!production) {
 #    if(!("Zelig" %in% rownames(installed.packages()))) {
 #        install_github("IQSS/Zelig")
@@ -55,6 +61,9 @@ library(DescTools)
 #!/usr/bin/env Rscript
 
 library(Zelig)
+library(rpart)
+library(caret)
+library(readr)
 source(paste(getwd(),"/preprocess/preprocess.R",sep="")) # load preprocess function
 
 modulesPath<-paste(getwd(),"/privacyfunctions/",sep="")
@@ -129,7 +138,7 @@ source("rookpreprocess.R")
 source("rookpipeline.R")
 source("rookhealthcheck.R")
 source("rookexplore.R")
-
+source("rooktree.R")
 if(addPrivacy){
     source("rookprivate.R")
 }
@@ -149,6 +158,7 @@ if(!is_rapache_mode){
     R.server$add(app = pipeline.app, name="pipelineapp")
     R.server$add(app = healthcheck.app, name="healthcheckapp")
     R.server$add(app = explore.app, name="exploreapp")
+    R.server$add(app = tree.app, name="treeapp")
 
     # Serve files directly from rook
     R.server$add(app = File$new(PRE_PATH), name = "rook-files")

@@ -76,12 +76,12 @@ explore.app <- function(env){
 
 	if(!warning){
         myedges<-everything$zedges
-        print("this is myedges.........")
-        print(myedges)
+        # print("this is myedges.........")
+        # print(myedges)
         
         myvars <- unique(myedges)
-        print("this is myvars.........")
-        print(myvars)
+        # print("this is myvars.........")
+        # print(myvars)
         ## Format seems to have changed:
         #		myedges<-edgeReformat(everything$zedges)
 		#if(is.null(myedges)){
@@ -229,6 +229,7 @@ print(" var1 buttontype");
 if(length(var1buttontype)==0 || length(var2buttontype)==0|| length(var1value)==0 || length(var2value)==0 || length(var2name)==0 ||length(var1name)==0)
 {
     print("not defined value part")
+    print(useTab[,1])
     if(length(unique(useTab[,1]))>10 & !isTRUE(rowvNature=="nominal")) {
         useTab[,1] <- cut(useTab[,1], breaks=10)
     }
@@ -243,6 +244,8 @@ else
               if(var1buttontype == "equidistance")
             {
                 print("equidistance var 1  called")
+                print(useTab[,1])
+                #format(useTab[,1], scientific=FALSE);
               if(length(unique(useTab[,1]))>10 & !isTRUE(rowvNature=="nominal")) {
                   useTab[,1] <- cut(useTab[,1], breaks=var1value)
               }
@@ -250,9 +253,11 @@ else
             }
             else if (var1buttontype == "equimass")
             {  print("equimass var 1 called")
+                print(useTab[,1])
                 # first arrange
+                #format(useTab[,1], scientific=FALSE);
                 usethis<- sort(useTab[,1], decreasing = FALSE, na.last = NA  )
-                print("equimass usethis")
+                print("equimass VAR 1 usethis")
                 print(usethis)
 
                 if(length(unique(useTab[,1]))>10 & !isTRUE(rowvNature=="nominal")) {
@@ -267,14 +272,19 @@ else
               {
 
                   print("equidistance var 2  called")
+                  print(useTab[,2])
+                  #format(useTab[,2], scientific=FALSE);
                   if(length(unique(useTab[,2]))>10 & !isTRUE(colvNature=="nominal")) {
+
                       useTab[,2] <- cut(useTab[,2], breaks=var2value)
                   }
               }
               else if(var2buttontype == "equimass")
               {
                   print("equimass var 2  called")
+                  print(useTab[,2])
                   # first arrange
+                 # format(useTab[,2], scientific=FALSE);
                   usethis<- sort(useTab[,2], decreasing = FALSE, na.last = NA  )
                   print("equimass usethis")
                   print(usethis)
@@ -286,6 +296,8 @@ else
               }
                   }
               myTab <- table(useTab[,1],useTab[,2])
+              print("myTab data")
+              print(myTab)
               rm(useTab)
               coln <- colnames(myTab)
               rown <- row.names(myTab)
