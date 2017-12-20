@@ -37,10 +37,11 @@ tree.app <- function(env)
     print("hello treeapp")
     fearonLaitin <- read_csv("../data/fearonLaitin.csv")
     #View(fearonLaitin)
-    value_var<- everything$env ~ .
-    print(value_var)
-    myTree <- rpart(value_var ,data=fearonLaitin,control=rpart.control(minsplit=2,cp=0))
-    #print(myTree)
+    obj<-everything$env
+    formula<- eval(parse(text=paste(obj,"~ .", sep = "")))
+    print(formula)
+    myTree <- rpart(formula,data=fearonLaitin,control=rpart.control(minsplit=2,cp=0))
+    print(myTree)
     #rpart.plot(myTree)
     rowvalue<<-c()
     #function to get rownamest
@@ -215,4 +216,9 @@ tree.app <- function(env)
 
     #newstr <- treeToJson(myTree$frame,myTree$splits,mystr)
     write(treeToJson(myTree$frame,myTree$splits,mystr), "univariateTree.json")
+    response$write(treeToJson(myTree$frame,myTree$splits,mystr))
+    response$finish()
+
+
+response$finish()
 }

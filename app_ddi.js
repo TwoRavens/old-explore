@@ -4629,7 +4629,7 @@ console.log("the node_var",node_var)
     }
     estimateLadda.start();  // start spinner
     makeCorsRequest(urlcall, btn, explore_treeAppSuccess, explore_treeAppFail, solajsonout);
-    univariatePart();
+    // univariatePart();
 
 }
 
@@ -6604,8 +6604,8 @@ function tabRight(tabid) {
         document.getElementById('btnBivariate').setAttribute("class", "btn btn-default");
         document.getElementById('btnUnivariate').setAttribute("class", "btn active");
         document.getElementById('univariate').style.display = 'block';
-        var initial_name="ccode";
-        callTreeApp(initial_name);
+        //var initial_name="ccode";
+       //callTreeApp(initial_name);
 
 
         d3.select("#rightpanel")
