@@ -40,7 +40,9 @@ tree.app <- function(env)
     obj<-everything$env
     formula<- eval(parse(text=paste(obj,"~ .", sep = "")))
     print(formula)
-    myTree <- rpart(formula,data=fearonLaitin,control=rpart.control(minsplit=2,cp=0))
+    zp <- rpart(formula,data=fearonLaitin,control=rpart.control(minsplit=2,cp=0),method="class")
+    myTree  <- prune(zp, cp = 0.1)
+    myTree$frame
     print(myTree)
     #rpart.plot(myTree)
     rowvalue<<-c()
