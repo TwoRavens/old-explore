@@ -5,14 +5,19 @@
 
 
 
-library(rpart)
-library(readr)
+# library(rpart)
+# library(readr)
 tree.app <- function(env)
 {
-    warning<-FALSE
-    #print("this is env")
-    #print(env$env)
 
+    print("Tree app started")
+    production<-FALSE     ## Toggle:  TRUE - Production, FALSE - Local Development
+    warning<-FALSE
+    #print("this is env")r
+    #print(env$env)
+    if(production){
+        sink(file = stderr(), type = "output")
+    }
     request <- Request$new(env)
     response <- Response$new(headers = list( "Access-Control-Allow-Origin"="*"))
 
@@ -26,22 +31,23 @@ tree.app <- function(env)
         print(everything$env)
         print("***")
     }
-    # print("***")
-    # print(valid)
-    # print("***")
+    print("***")
+    print(valid)
+    print("***")
   whichlevel<- function(i)
     {
         return(trunc(log(i)/log(2)))
 
     }
     print("hello treeapp")
-    fearonLaitin <- read_csv("../data/fearonLaitin.csv")
+    fearonLaitin <- read.csv("../data/fearonLaitin.csv",nrows=1000)
     #View(fearonLaitin)
     obj<-everything$env
     formula<- eval(parse(text=paste(obj,"~ .", sep = "")))
     print(formula)
-    zp <- rpart(formula,data=fearonLaitin,control=rpart.control(minsplit=2,cp=0),method="class")
-    myTree  <- prune(zp, cp = 0.1)
+
+    myTree <- rpart(formula,data=fearonLaitin,control=rpart.control(minsplit=2,cp=0))
+   # myTree  <- prune(rpTree, cp = rpTree$cptable[which.min(rpTree$cptable[,"xerror"]),"CP"])
     myTree$frame
     print(myTree)
     #rpart.plot(myTree)
@@ -155,7 +161,12 @@ tree.app <- function(env)
             val<- ""
             if(row$var!="<leaf>")
             {
-                mystr <- paste(mystr,"{","\"error \": ",row$dev,",\"samples\": ",row$n,",\"value\": ",row$yval," ,\"label\": ",value[j],",\"type\":\"split\",\"children\":[", sep='')
+                if(is.na(value[j]))
+                {
+                    value[j]=00
+                    print("NA")
+                }
+                mystr <- paste(mystr,"{","\"error \": ",row$dev,",\"samples\": ",row$n,",\"value\": ",row$yval," ,\"label\": ",paste("\"", value[j],"\""),",\"type\":\"split\",\"children\":[", sep='')
 
 
 
@@ -215,10 +226,14 @@ tree.app <- function(env)
         # #print(str)
         return(mystr)
     }
+    if(production){
+        sink()
+    }
 
     #newstr <- treeToJson(myTree$frame,myTree$splits,mystr)
     write(treeToJson(myTree$frame,myTree$splits,mystr), "univariateTree.json")
-    response$write(treeToJson(myTree$frame,myTree$splits,mystr))
+
+   response$write(treeToJson(myTree$frame,myTree$splits,mystr))
     response$finish()
 
 
