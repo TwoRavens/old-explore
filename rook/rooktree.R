@@ -166,7 +166,7 @@ tree.app <- function(env)
                     value[j]=00
                     print("NA")
                 }
-                mystr <- paste(mystr,"{","\"error \": ",row$dev,",\"samples\": ",row$n,",\"value\": ",row$yval," ,\"label\": ",paste("\"", value[j],"\""),",\"type\":\"split\",\"children\":[", sep='')
+                mystr <- paste(mystr,"{","\"error \": ",row$dev,",\"samples\": ",row$n,",\"value\": [ ",row$yval," ],\"label\": ",paste("\"",row$var," <= ", value[j],"\""),",\"type\":\"split\",\"children\":[", sep='')
 
 
 
@@ -180,7 +180,7 @@ tree.app <- function(env)
                 #    #print(mystr)
 
                 mystr <- paste(mystr,"{", sep='')
-                mystr <- paste(mystr,"\"error\": ",row$dev,",\"samples\": ",row$n,",\"value\": ",row$yval," ,\"label\": \"Leaf - ",leaf.i,"\",\"type\":\"leaf\"},", sep='')
+                mystr <- paste(mystr,"\"error\": ",row$dev,",\"samples\": ",row$n,",\"value\": [ ",row$yval," ],\"label\": \"Leaf - ",leaf.i,"\",\"type\":\"leaf\"},", sep='')
 
                 z<-z+1
 
